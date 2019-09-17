@@ -18,7 +18,8 @@
         <result column="channel_url" property="channelUrl" jdbcType="VARCHAR"/>
         <result column="refund_url" property="refundUrl" jdbcType="VARCHAR"/>
         <result column="channel_connect_method" property="channelConnectMethod" jdbcType="TINYINT"/>
-        <result column="limit_amount" property="limitAmount" jdbcType="DECIMAL"/>
+        <result column="limit_min_amount" property="limitMinAmount" jdbcType="DECIMAL"/>
+        <result column="limit_max_amount" property="limitMaxAmount" jdbcType="DECIMAL"/>
         <result column="sort" property="sort" jdbcType="VARCHAR"/>
         <result column="channel_rate" property="channelRate" jdbcType="DECIMAL"/>
         <result column="channel_fee" property="channelFee" jdbcType="DECIMAL"/>
@@ -44,7 +45,7 @@
 
     <sql id="Base_Column_List">
         id, channel_code, channel_en_name, channel_cn_name, channel_img, country, country_type, trans_type, pay_type,
-        currency, settle_cycle, channel_url,channel_single_select_url, channel_batch_select_url,limit_amount,
+        currency, settle_cycle, channel_url,channel_single_select_url, channel_batch_select_url,limit_min_amount,limit_max_amount,
         create_time,
         update_time, creator,pay_code,
         issuer_id,channel_connect_method,channel_rate,channel_fee,channel_fee_type,channel_min_rate,channel_max_rate,

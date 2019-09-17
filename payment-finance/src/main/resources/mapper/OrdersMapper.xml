@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.asianwallets.finance.dao.OrdersMapper">
-    <resultMap id="BaseResultMap" type="com.asianwallets.common.entity.Orders">
+<mapper namespace="com.payment.finance.dao.OrdersMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.Orders">
         <id column="id" property="id" jdbcType="VARCHAR"/>
         <result column="jump_url" property="jumpUrl" jdbcType="VARCHAR"/>
         <result column="trade_type" property="tradeType" jdbcType="TINYINT"/>
@@ -138,13 +138,13 @@
         GROUP BY order_currency, institution_code
     </select>
 
-    <resultMap id="CheckAccountVOMap" type="com.asianwallets.finance.vo.CheckAccountVO">
+    <resultMap id="CheckAccountVOMap" type="com.payment.finance.vo.CheckAccountVO">
         <result column="institutionCode" property="institutionCode" jdbcType="DECIMAL"/>
         <result column="orderCurrency" property="orderCurrency" jdbcType="VARCHAR"/>
         <collection property="checkAccountListVOS" resultMap="CheckAccountListVOMap"></collection>
     </resultMap>
 
-    <resultMap id="CheckAccountListVOMap" type="com.asianwallets.finance.vo.CheckAccountListVO">
+    <resultMap id="CheckAccountListVOMap" type="com.payment.finance.vo.CheckAccountListVO">
         <result column="totalAmount" property="totalAmount" jdbcType="VARCHAR"/>
         <result column="totalCount" property="totalCount" jdbcType="DECIMAL"/>
         <result column="fee" property="fee" jdbcType="VARCHAR"/>
