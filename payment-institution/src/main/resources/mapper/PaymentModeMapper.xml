@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.institution.dao.PaymentModeMapper">
+    <resultMap id="BaseResultMap" type="com.payment.institution.entity.PaymentMode">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="pay_type" property="payType" jdbcType="VARCHAR"/>
+        <result column="deal_type" property="dealType" jdbcType="VARCHAR"/>
+        <result column="icon" property="icon" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="language" property="language" jdbcType="VARCHAR"/>
+
+    </resultMap>
+    <resultMap id="newResultMap" type="com.payment.common.vo.PaymentModeVO">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <id column="d_id" property="dictionaryId" jdbcType="VARCHAR"/>
+        <result column="pay_type" property="payType" jdbcType="VARCHAR"/>
+        <result column="deal_type" property="dealType" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="language" property="language" jdbcType="VARCHAR"/>
+        <result column="d_name" property="name" jdbcType="VARCHAR"/>
+        <result column="d_icon" property="dIcon" jdbcType="VARCHAR"/>
+        <result column="p_icon" property="pIcon" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, pay_type, deal_type, enabled, create_time, update_time, creator, modifier, remark,
+    language
+    </sql>
+    <select id="pagePayInfo" resultMap="newResultMap">
+        select p.id, p.pay_type, p.icon as p_icon ,p.deal_type, p.enabled, p.create_time, p.update_time, p.creator,
+        p.modifier, p.remark,d.language,d.name as d_name,d.icon as d_icon, d.id as d_id
+        from payment_mode p left join dictionary d on p.pay_type = d.code
+        <where>
+            <if test="id!=null and id !=''">AND id = #{id}</if>
+            <if test="payType!=null and payType !=''">AND pay_type = #{payType}</if>
+            <if test="dealType!=null and dealType !=''">AND deal_type = #{dealType}</if>
+            <if test="enabled!=null">AND enabled = #{enabled}</if>
+            <if test="createTime!=null and createTime !=''">AND create_time = #{createTime}</if>
+            <if test="updateTime!=null and updateTime !=''">AND update_time = #{updateTime}</if>
+            <if test="creator!=null and creator !=''">AND creator = #{creator}</if>
+            <if test="modifier!=null and modifier !=''">AND modifier = #{modifier}</if>
+            <if test="remark!=null and remark !=''">AND remark = #{remark}</if>
+            <if test="language!=null and language !=''">AND d.language = #{language}</if>
+        </where>
+    </select>
+
+    <select id="getPayInfo" resultMap="newResultMap">
+        select p.id, p.pay_type,p.icon as p_icon, p.deal_type, p.enabled, p.create_time, p.update_time, p.creator,
+        p.modifier, p.remark,
+        p.language,d.name as d_name,d.icon as d_icon
+        from payment_mode p left join dictionary d on p.pay_type = d.code
+        <where>
+            <if test="id!=null and id !=''">AND id = #{id}</if>
+            <if test="payType!=null and payType !=''">AND pay_type = #{payType}</if>
+            <if test="dealType!=null and dealType !=''">AND deal_type = #{dealType}</if>
+            <if test="enabled!=null">AND enabled = #{enabled}</if>
+            <if test="createTime!=null and createTime !=''">AND create_time = #{createTime}</if>
+            <if test="updateTime!=null and updateTime !=''">AND update_time = #{updateTime}</if>
+            <if test="creator!=null and creator !=''">AND creator = #{creator}</if>
+            <if test="modifier!=null and modifier !=''">AND modifier = #{modifier}</if>
+            <if test="remark!=null and remark !=''">AND remark = #{remark}</if>
+            <if test="language!=null and language !=''">AND d.language = #{language}</if>
+        </where>
+    </select>
+
+    <select id="selectExist" resultType="java.lang.Integer">
+        select count(*)
+        from payment_mode
+        where pay_type = #{payType}
+          and deal_type = #{dealType};
+    </select>
+
+</mapper>

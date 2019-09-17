@@ -1,0 +1,136 @@
+server:
+  port: 9004
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    registerWithEureka: true
+    fetchRegistry: true
+
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 10000
+  MaxAutoRetries: 0
+  MaxAutoRetriesNextServer: 1
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 60000
+spring:
+  # 数据库配置
+  datasource:
+    url: jdbc:mysql://47.90.37.64:3306/asianwallet_institution?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password: zhongha-2019
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    filters: stat
+    maxActive: 200
+    initialSize: 1
+    maxWait: 60000
+    minIdle: 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: select 'x'
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+    maxOpenPreparedStatements: 20
+
+  # rabbitMq 配置
+  rabbitmq:
+    addresses: 127.0.0.1:5672
+    username: admin
+    password: admin@20190319
+
+# redis 配置
+redis:
+  database: 0
+  password: h3m9aMVHC1GiCkTnLH9J
+  host: 127.0.0.1
+  port: 6379
+  time: 0
+  pool:
+    max-idle: 100
+    min-idle: 5
+    max-total: 100
+    max-wait-millis: -1
+
+#项目自定义配置
+custom:
+  #AD3提供的测试参数
+  #url
+  ad3Url: https://pgw.alldebitpay.com
+  ad3ItsUrl: https://its.alldebitpay.com/v1/
+  nextPosUrl: https://its.alldebitpay.com/ITSBoss/nextPosNotifyAction/nextPosqrbackNotify.do
+  #AD3给亚洲钱包提供的商户号
+  merchantCode: 20190524500137
+  imei: 2222222
+  operatorId: '00'  #操作员ID，字符串
+  password: a123456
+  tradePwd: a123456
+
+  #线上 指定密钥的提供方 1为使用平台提供的密钥 2为使用自己生成的密钥
+  merchantSignType: 2
+  #线上 私钥 与提供方有关
+  platformProvidesPrivateKey: >
+    MIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCEH2/
+    vtqHVHnzegqPxzWXevPJE7UZ16tACF8v11ovsZEzBepMCZyoWACNGIy
+    b2DbuIFtK9yZxkMLsTuWqYiHkCLgjXK99Z/Hp/nen6er3BomeEnNW5F
+    rdOyQ4/FWjNYPTPp8VbhEJJhMyEbrdMuckZRbpYkdkUTLhnc5Axbttx
+    45AkLoJy/XBppzcPMX5uLM7z8KMZDwO/YvKvpZ/mNYqLOpWQBvxsuTx
+    0ZCRyqPZHVHB5qSdtYtAcL6NYIZuwXPtH0jJWK7X/7OUQMGW7uGogtA
+    jOq9vAt16lnPiK1lzfvmliIQeFdWHtxKRdeWpEGKeHZ/VYoTQaoOe+5
+    M/+G2kRAgMBAAECggEAVGXgkzgO2JzJFzpMj8GtOUNpXy5SvDBq/2tE
+    Fp4ec7r+bPlnvzk3YSZlYgBCexr6mEw8ApAvHrEiT885kIZdBk9xxkF
+    4Q3tMpQiy1hZh8LdVeRjWTY19Ow6j0xhSAh/VQnDhWTx7O4thOZef75
+    seIs6v4rQH/zei9DKWAX3XIEBaanOVr5o/SKYlpsmHXoQXXzxYbi02W
+    4USMvgNuvDpbrejMINxffB+otQcnMLhR4B/s50CGm+AUzH6lgfkR/BI
+    l/A1Wt3qSFqOldTqwFp+laQY8WqFpd7yFWgLU6rspHVZo5ZiguC2zBf
+    ebLvDiGk4zlL1NsJCaYnKSTZj74TjgQKBgQC7Vs1lIbtlcf7PkxBeiu
+    KFO6EOsC2DOtX1TxjCyk+MAbyfRdHMUTikHNRn1EZgBKOtcWGr75z+/
+    0oDRdlYsYmfQTOwaOkat1QrFkM4moAQC7pekvlA3vz9nzr0Pn4tHu+x
+    XqzY76LXEHiVOrAzVJkrj0OqsGy7XJX/h3dOgsjeZQKBgQC0i++q35F
+    M8XXtyjYS3/FEEuN3xqBpCBOVX1A/RhN2o4LXqjKhvak4SogoVfx0DP
+    cQsVGr+YgDe/vlyGW/G3cLKMK5oNOfsm44oOtDy+uBKx6oSqVm+ZK0d
+    NT5nGOIvjPZRgjDvE2RGMrYXaw0BhHxuSiGq/mdBJviLlMOrbSPPQKB
+    gFSxPVIHGe0WyBeXaMMVDqsk9f7p7ulw4+FuzMbjJ2soLdnjeqFf5rd
+    qwSvfb6Fg944lv/426Ubuqssn/MZ4HLt+gpuyEhAd6VNBUUp5roOSic
+    LPtxd4t+8A2WoqBmjnn30UTBgW3gtUSu9MBPRvvn9O2UyFTeK2TKmk2
+    G8J+T1xAoGATlZ5g1bGIPCUDr0ygTYR5Uuczxer+ma6uJFGrG2nfE6u
+    Mw1yMqOsjPQp5/aHN4N4oBGQMmJvFbPyNF2jaCxulrT06L5TlHNDR+b
+    qrdwJL16aSsM4yVl4wjv/PN8SgP6mWJv+qY9GyLJNMVxTn68SkiOY5f
+    YwtGSPjrAy8aeFNLECgYAEKXlGxmAitHW8lNMAzLgbtw7ETrYINuKB7
+    FmLnDDR2bFzDsh7ZWonxId/8xxNdIJOg2lZhDg0UhHiDw7mmrpvUZ+I
+    Ln07rKL4UalElso2p/ZGReHY1jV8mtLzt+d0n9FexlUHxVMIZ+cJmVn
+    t5NkYPRmf9YLusOcOujIWHaULJg==
+  #给AD3的回调URL
+  channelCallbackUrl: https://psw.asianwallets.com/tra
+  #收银台url
+  cashierDeskUrl: https://psw.asianwallets.com/checkstandweb/#/main
+  #亚洲钱包的支付成功页面的url
+  paySuccessUrl: https://psw.asianwallets.com/checkstandweb/#/Success
+  #付款人名称
+  draweeName: E2RGMrYX
+  #付款人邮箱
+  draweeEmail: swainfx@163.com
+  product:
+    email:
+    mobile:
+  developer:
+    email: 2502610582@qq.com
+    mobile: 18537639396
+  operation:
+    email:
+    mobile:
+  nganLuong:
+    merchant_id: 60117|hello@alldebit.com
+    merchant_password: d033cf6d07308c18429af1d43a24aed1
+    check_url: https://www.nganluong.vn/checkout.api.nganluong.post.php

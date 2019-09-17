@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.institution.dao.AttestationMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.Attestation">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="institution_code" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="md5key" property="md5key" jdbcType="LONGVARCHAR"/>
+        <result column="type" property="type" jdbcType="TINYINT"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="pubkey" property="pubkey" jdbcType="LONGVARCHAR"/>
+        <result column="prikey" property="prikey" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <resultMap id="NewResultMap" type="com.payment.common.vo.AttestationVO">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="institution_code" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="pf_md5key" property="md5key" jdbcType="LONGVARCHAR"/>
+        <result column="type" property="type" jdbcType="TINYINT"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="institutionPubkey" property="institutionPubkey" jdbcType="LONGVARCHAR"/>
+        <result column="platformPubkey" property="platformPubkey" jdbcType="LONGVARCHAR"/>
+        <result column="prikey" property="prikey" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+
+    <select id="selectKeyInfo" resultMap="NewResultMap" resultType="com.payment.common.vo.AttestationVO">
+        select id, institution_code, a1.pubkey as institutionPubkey,a2.pubkey as platformPubkey, a2.md5key as pf_md5key,
+        type, enabled, create_time,
+        update_time, creator, modifier,
+        remark
+        from attestation a1,(select pubkey,md5key from attestation where enabled =
+        1 and type = 1 and institution_code = concat('PF_',#{institutionCode}) ) a2
+        <where>
+            <if test="id != null and id != ''">
+                AND id = #{id}
+            </if>
+            <if test="institutionCode != null and institutionCode != ''">
+                AND a1.institution_code = #{institutionCode}
+            </if>
+            <if test="pubkey != null and pubkey != ''">
+                AND a2.pf_md5key = #{pubkey}
+            </if>
+            <if test="md5key != null and md5key != ''">
+                AND md5key = #{md5key}
+            </if>
+            <if test="type != null and type != ''">
+                AND type = #{type}
+            </if>
+            <if test="createTime != null">
+                AND create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                AND update_time = #{updateTime}
+            </if>
+            <if test="creator != null and creator != ''">
+                AND creator = #{creator}
+            </if>
+            <if test="modifier != null and modifier != ''">
+                AND modifier = #{modifier}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND remark = #{remark}
+            </if>
+            AND enabled = true
+        </where>
+    </select>
+
+    <select id="pageAllKeyInfo" resultMap="BaseResultMap" resultType="com.payment.common.entity.Attestation">
+        select id, institution_code, pubkey, prikey, md5key, type, enabled, create_time, update_time, creator, modifier,
+        remark
+        from attestation
+        <where>
+            <if test="id != null and id != ''">
+                AND id = #{id}
+            </if>
+            <if test="institutionCode != null and institutionCode != ''">
+                AND institution_code = #{institutionCode}
+            </if>
+            <if test="pubkey != null and pubkey != ''">
+                AND pubkey = #{pubkey}
+            </if>
+            <if test="prikey != null and prikey != ''">
+                AND prikey = #{prikey}
+            </if>
+            <if test="md5key != null and md5key != ''">
+                AND md5key = #{md5key}
+            </if>
+            <if test="type != null and type != ''">
+                AND type = #{type}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                AND create_time = #{createTime}
+            </if>
+            <if test="updateTime != null and updateTime != ''">
+                AND update_time = #{updateTime}
+            </if>
+            <if test="creator != null and creator != ''">
+                AND creator = #{creator}
+            </if>
+            <if test="modifier != null and modifier != ''">
+                AND modifier = #{modifier}
+            </if>
+            <if test="remark != null and remark != ''">
+                AND remark = #{remark}
+            </if>
+            AND enabled = true
+        </where>
+    </select>
+    <select id="selectPlatformPub" resultType="com.payment.common.vo.AttestationVO"
+            resultMap="NewResultMap">
+        select id,
+               institution_code,
+               pubkey as platformPubkey,
+               md5key,
+               type,
+               enabled,
+               create_time,
+               update_time,
+               creator,
+               modifier,
+               remark
+        from attestation
+        where institution_code = #{institutionCode}
+          and type = 1
+          and enabled = 1;
+    </select>
+
+    <select id="selectByInstitutionCode" resultType="java.lang.Integer">
+        select count(id)
+        from attestation
+        where institution_code = #{institutionCode}
+          and enabled = 1;
+    </select>
+
+    <select id="selectByPubKey" resultType="java.lang.Integer">
+        select count(*)
+        from attestation
+        where pubkey = #{pubKey}
+          and enabled = 1;
+    </select>
+
+</mapper>

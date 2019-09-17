@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.finance.dao.ReconciliationMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.Reconciliation">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <result column="refund_order_id" property="refundOrderId" jdbcType="VARCHAR"/>
+        <result column="channel_number" property="channelNumber" jdbcType="VARCHAR"/>
+        <result column="institution_order_id" property="institutionOrderId" jdbcType="VARCHAR"/>
+        <result column="institution_code" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="institution_name" property="institutionName" jdbcType="VARCHAR"/>
+        <result column="amount" property="amount" jdbcType="DECIMAL"/>
+        <result column="order_currency" property="orderCurrency" jdbcType="VARCHAR"/>
+        <result column="exchange_rate" property="exchangeRate" jdbcType="DECIMAL"/>
+        <result column="trade_currency" property="tradeCurrency" jdbcType="VARCHAR"/>
+        <result column="trade_amount" property="tradeAmount" jdbcType="DECIMAL"/>
+        <result column="reconciliation_type" property="reconciliationType" jdbcType="INTEGER"/>
+        <result column="sign" property="sign" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="remark1" property="remark1" jdbcType="VARCHAR"/>
+        <result column="remark2" property="remark2" jdbcType="VARCHAR"/>
+        <result column="remark3" property="remark3" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="change_type" property="changeType" jdbcType="INTEGER"/>
+        <result column="freeze_type" property="freezeType" jdbcType="INTEGER"/>
+        <result column="account_type" property="accountType" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, order_id, refund_order_id, channel_number, institution_order_id, amount, order_currency, institution_code,institution_name,
+    exchange_rate, trade_currency, trade_amount, sign, status,remark1, remark2, remark3, create_time,reconciliation_type,
+    update_time, creator, modifier, remark,change_type,freeze_type,account_type
+    </sql>
+
+    <select id="pageReconciliation" resultMap="BaseResultMap">
+        select
+        id, order_id, refund_order_id, channel_number, institution_order_id, reconciliation_type, institution_name,
+        institution_code, amount, order_currency, exchange_rate, trade_currency, status, trade_amount, sign, remark1,
+        remark2, remark3, create_time, update_time, creator, modifier, remark, change_type, freeze_type, account_type
+        from reconciliation
+        <where>
+            <if test="currency!=null and currency != ''">
+                and order_currency=#{currency}
+            </if>
+            <if test="institutionCode!=null and institutionCode != ''">
+                and institution_code=#{institutionCode}
+            </if>
+            <if test="id!=null and id != ''">
+                and id=#{id}
+            </if>
+            <if test="status!=null and status != ''">
+                and status=#{status}
+            </if>
+            <if test="changeType!=null">
+                and change_type=#{changeType}
+            </if>
+        </where>
+    </select>
+
+    <select id="pageExportReconciliation" resultMap="BaseResultMap">
+        select
+        id, order_id, refund_order_id, channel_number, institution_order_id, reconciliation_type, institution_name,
+        institution_code, amount, order_currency, exchange_rate, trade_currency, status, trade_amount, sign, remark1,
+        remark2, remark3, create_time, update_time, creator, modifier, remark, change_type, freeze_type, account_type
+        from reconciliation
+        <where>
+            <if test="currency!=null and currency != ''">
+                and order_currency=#{currency}
+            </if>
+            <if test="institutionCode!=null and institutionCode != ''">
+                and institution_code=#{institutionCode}
+            </if>
+            <if test="id!=null and id != ''">
+                and id=#{id}
+            </if>
+            <if test="status!=null and status != ''">
+                and status=#{status}
+            </if>
+            <if test="changeType!=null">
+                and change_type=#{changeType}
+            </if>
+        </where>
+    </select>
+
+    <select id="pageReviewReconciliation" resultMap="BaseResultMap">
+        select
+        id, order_id, refund_order_id, channel_number, institution_order_id, reconciliation_type, institution_name,
+        institution_code, amount, order_currency, exchange_rate, trade_currency, status, trade_amount, sign, remark1,
+        remark2, remark3, create_time, update_time, creator, modifier, remark, change_type, freeze_type, account_type
+        from reconciliation
+        <where>
+            <if test="currency!=null and currency != ''">
+                and order_currency=#{currency}
+            </if>
+            <if test="institutionCode!=null and institutionCode != ''">
+                and institution_code=#{institutionCode}
+            </if>
+            <if test="id!=null and id != ''">
+                and id=#{id}
+            </if>
+            <if test="changeType!=null">
+                and change_type=#{changeType}
+            </if>
+            and status in (1,4,7)
+        </where>
+    </select>
+
+    <select id="selectAvailableBalance" resultType="java.math.BigDecimal">
+        select settle_balance - freeze_balance
+        from account
+        where institution_id = #{institutionId}
+          and currency = #{currency}
+          and enabled = 1;
+    </select>
+
+    <select id="selectFreezeBalance" resultType="java.math.BigDecimal">
+        select sum(amount)
+        FROM reconciliation
+        WHERE institution_code = #{institutionId}
+          and order_currency = #{currency}
+          and `status` in (5, 8)
+        GROUP BY order_currency, account_type
+        HAVING account_type = #{accountType};
+    </select>
+
+
+</mapper>

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.trade.dao.ShareBenefitLogsMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.ShareBenefitLogs">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <result column="institution_code" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="institution_name" property="institutionName" jdbcType="VARCHAR"/>
+        <result column="agent_code" property="agentCode" jdbcType="VARCHAR"/>
+        <result column="agent_name" property="agentName" jdbcType="VARCHAR"/>
+        <result column="trade_currency" property="tradeCurrency" jdbcType="VARCHAR"/>
+        <result column="trade_amount" property="tradeAmount" jdbcType="DOUBLE"/>
+        <result column="fee" property="fee" jdbcType="DOUBLE"/>
+        <result column="share_benefit" property="shareBenefit" jdbcType="DOUBLE"/>
+        <result column="is_share" property="isShare" jdbcType="TINYINT"/>
+        <result column="divided_mode" property="dividedMode" jdbcType="TINYINT"/>
+        <result column="divided_ratio" property="dividedRatio" jdbcType="DECIMAL"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="extend1" property="extend1" jdbcType="VARCHAR"/>
+        <result column="extend2" property="extend2" jdbcType="VARCHAR"/>
+        <result column="extend3" property="extend3" jdbcType="VARCHAR"/>
+        <result column="extend4" property="extend4" jdbcType="VARCHAR"/>
+        <result column="extend5" property="extend5" jdbcType="VARCHAR"/>
+        <result column="extend6" property="extend6" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="QueryAgencyShareBenefitVOMap" type="com.payment.common.vo.QueryAgencyShareBenefitVO">
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="institutionCode" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="institutionName" property="institutionName" jdbcType="VARCHAR"/>
+        <result column="tradeCurrency" property="tradeCurrency" jdbcType="VARCHAR"/>
+        <result column="tradeAmount" property="tradeAmount" jdbcType="DOUBLE"/>
+        <result column="fee" property="fee" jdbcType="DOUBLE"/>
+        <result column="shareBenefit" property="shareBenefit" jdbcType="DOUBLE"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, order_id, institution_code, institution_name, agent_code, agent_name, trade_currency,
+    trade_amount, fee, share_benefit, is_share, divided_mode, divided_ratio, create_time,
+    update_time, creator, modifier, remark, extend1, extend2, extend3, extend4, extend5,
+    extend6
+  </sql>
+
+    <select id="pageAgencyShareBenefit" resultMap="QueryAgencyShareBenefitVOMap">
+        SELECT create_time as createTime,
+        order_id as orderId,
+        trade_amount as tradeAmount,
+        trade_currency as tradeCurrency,
+        fee as fee,
+        is_share as isShare,
+        share_benefit as shareBenefit,
+        institution_code as institutionCode,
+        institution_name as institutionName,
+        remark as remark
+        FROM share_benefit_logs
+        where agent_code = #{agencyCode}
+        <if test="institutionCode != null and institutionCode != ''">
+            AND institution_code = #{institutionCode}
+        </if>
+        <if test="institutionName != null and institutionName != ''">
+            AND institution_name LIKE CONCAT(CONCAT('%', #{institutionName}), '%')
+        </if>
+        <if test="orderId != null and orderId != ''">
+            AND order_id = #{orderId}
+        </if>
+        <if test="isShare != null and isShare != ''">
+            AND is_share = #{isShare}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND create_time &gt;= #{startDate}
+        </if>
+        <if test="endDate != null  and endDate != ''">
+            AND create_time &lt;= #{endDate}
+        </if>
+    </select>
+
+    <select id="exportAgencyShareBenefit" resultMap="QueryAgencyShareBenefitVOMap">
+        SELECT
+        create_time as createTime,
+        order_id as orderId,
+        trade_amount as tradeAmount,
+        trade_currency as tradeCurrency,
+        fee as fee,
+        is_share as isShare,
+        share_benefit as shareBenefit,
+        institution_code as institutionCode,
+        institution_name as institutionName,
+        remark as remark
+        FROM share_benefit_logs
+        where agent_code = #{agencyCode}
+        <if test="institutionCode != null and institutionCode != ''">
+            AND institution_code = #{institutionCode}
+        </if>
+        <if test="institutionName != null and institutionName != ''">
+            AND institution_name LIKE CONCAT(CONCAT('%', #{institutionName}), '%')
+        </if>
+        <if test="orderId != null and orderId != ''">
+            AND order_id = #{orderId}
+        </if>
+        <if test="isShare != null and isShare != ''">
+            AND is_share = #{isShare}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND create_time &gt;= #{startDate}
+        </if>
+        <if test="endDate != null  and endDate != ''">
+            AND create_time &lt;= #{endDate}
+        </if>
+        order by create_time desc
+    </select>
+
+    <select id="pageShareBenefitReport" resultMap="ShareBenefitReportVOMap">
+        SELECT
+        create_time as createTime,
+        agent_code as agencyCode,
+        agent_name as agencyName,
+        order_id as orderId,
+        trade_currency as orderCurrency,
+        trade_amount as orderAmount,
+        fee as fee,
+        is_share as isShare,
+        divided_ratio as dividedRatio,
+        share_benefit as shareBenefit,
+        institution_name as institutionName,
+        institution_code as institutionCode,
+        extend1 as extend1,
+        extend2 as extend2
+        FROM share_benefit_logs
+        <where>
+            <if test="agencyCode != null and agencyCode != ''">
+                AND agent_code LIKE CONCAT(CONCAT('%', #{agencyCode}), '%')
+            </if>
+            <if test="agencyName != null and agencyName != ''">
+                AND agent_name LIKE CONCAT(CONCAT('%', #{agencyName}), '%')
+            </if>
+            <if test="orderId != null and orderId != ''">
+                AND order_id = #{orderId}
+            </if>
+            <if test="institutionCode != null and institutionCode != ''">
+                AND institution_code LIKE CONCAT(CONCAT('%', #{institutionCode}), '%')
+            </if>
+            <if test="institutionName != null and institutionName != ''">
+                AND institution_name LIKE CONCAT(CONCAT('%', #{institutionName}), '%')
+            </if>
+            <if test="orderCurrency != null and orderCurrency != ''">
+                AND trade_currency = #{orderCurrency}
+            </if>
+            <if test="isShare != null and isShare != ''">
+                AND is_share = #{isShare}
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND create_time &gt;= #{startDate}
+            </if>
+            <if test="endDate != null  and endDate != ''">
+                AND create_time &lt;= #{endDate}
+            </if>
+        </where>
+    </select>
+
+    <select id="exportShareBenefitReport" resultMap="ShareBenefitReportVOMap">
+        SELECT
+        create_time as createTime,
+        agent_code as agencyCode,
+        agent_name as agencyName,
+        order_id as orderId,
+        trade_currency as orderCurrency,
+        trade_amount as orderAmount,
+        fee as fee,
+        is_share as isShare,
+        divided_ratio as dividedRatio,
+        share_benefit as shareBenefit,
+        institution_name as institutionName,
+        institution_code as institutionCode,
+        extend1 as extend1,
+        extend2 as extend2
+        FROM share_benefit_logs
+        <where>
+            <if test="agencyCode != null and agencyCode != ''">
+                AND agent_code LIKE CONCAT(CONCAT('%', #{agencyCode}), '%')
+            </if>
+            <if test="agencyName != null and agencyName != ''">
+                AND agent_name LIKE CONCAT(CONCAT('%', #{agencyName}), '%')
+            </if>
+            <if test="orderId != null and orderId != ''">
+                AND order_id = #{orderId}
+            </if>
+            <if test="isShare != null and isShare != ''">
+                AND is_share = #{isShare}
+            </if>
+            <if test="institutionCode != null and institutionCode != ''">
+                AND institution_code LIKE CONCAT(CONCAT('%', #{institutionCode}), '%')
+            </if>
+            <if test="institutionName != null and institutionName != ''">
+                AND institution_name LIKE CONCAT(CONCAT('%', #{institutionName}), '%')
+            </if>
+            <if test="orderCurrency != null and orderCurrency != ''">
+                AND trade_currency = #{orderCurrency}
+            </if>
+            <if test="startDate != null and startDate != ''">
+                AND create_time &gt;= #{startDate}
+            </if>
+            <if test="endDate != null  and endDate != ''">
+                AND create_time &lt;= #{endDate}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <resultMap id="ShareBenefitReportVOMap" type="com.payment.common.vo.ShareBenefitReportVO">
+        <result column="createTime" property="createTime" jdbcType="VARCHAR"/>
+        <result column="agencyCode" property="agencyCode" jdbcType="VARCHAR"/>
+        <result column="agencyName" property="agencyName" jdbcType="VARCHAR"/>
+        <result column="orderId" property="orderId" jdbcType="VARCHAR"/>
+        <result column="orderCurrency" property="orderCurrency" jdbcType="VARCHAR"/>
+        <result column="orderAmount" property="orderAmount" jdbcType="DOUBLE"/>
+        <result column="fee" property="fee" jdbcType="DOUBLE"/>
+        <result column="dividedRatio" property="dividedRatio" jdbcType="DECIMAL"/>
+        <result column="shareBenefit" property="shareBenefit" jdbcType="DOUBLE"/>
+        <result column="institutionName" property="institutionName" jdbcType="VARCHAR"/>
+        <result column="institutionCode" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="extend1" property="extend1" jdbcType="VARCHAR"/>
+        <result column="extend2" property="extend2" jdbcType="VARCHAR"/>
+    </resultMap>
+
+</mapper>

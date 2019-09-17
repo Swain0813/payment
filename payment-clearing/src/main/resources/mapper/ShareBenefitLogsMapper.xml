@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.clearing.dao.ShareBenefitLogsMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.ShareBenefitLogs">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <result column="institution_code" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="institution_name" property="institutionName" jdbcType="VARCHAR"/>
+        <result column="agent_code" property="agentCode" jdbcType="VARCHAR"/>
+        <result column="agent_name" property="agentName" jdbcType="VARCHAR"/>
+        <result column="trade_currency" property="tradeCurrency" jdbcType="VARCHAR"/>
+        <result column="trade_amount" property="tradeAmount" jdbcType="DOUBLE"/>
+        <result column="fee" property="fee" jdbcType="DOUBLE"/>
+        <result column="share_benefit" property="shareBenefit" jdbcType="DOUBLE"/>
+        <result column="is_share" property="isShare" jdbcType="TINYINT"/>
+        <result column="divided_mode" property="dividedMode" jdbcType="TINYINT"/>
+        <result column="divided_ratio" property="dividedRatio" jdbcType="DECIMAL"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="extend1" property="extend1" jdbcType="VARCHAR"/>
+        <result column="extend2" property="extend2" jdbcType="VARCHAR"/>
+        <result column="extend3" property="extend3" jdbcType="VARCHAR"/>
+        <result column="extend4" property="extend4" jdbcType="VARCHAR"/>
+        <result column="extend5" property="extend5" jdbcType="VARCHAR"/>
+        <result column="extend6" property="extend6" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, order_id, institution_code, institution_name, agent_code, agent_name, trade_currency,
+    trade_amount, fee, share_benefit, is_share, divided_mode, divided_ratio, create_time,
+    update_time, creator, modifier, remark, extend1, extend2, extend3, extend4, extend5,
+    extend6
+  </sql>
+    <select id="selectbyStStatusAndIsShare" resultMap="BaseResultMap">
+    select sl.id, sl.order_id, sl.institution_code, sl.institution_name, sl.agent_code, sl.agent_name, sl.trade_currency,
+    sl.trade_amount, sl.fee, sl.share_benefit, sl.is_share, sl.divided_mode, sl.divided_ratio, sl.create_time,
+    sl.update_time, sl.creator, sl.modifier, sl.remark, sl.extend1, sl.extend2, sl.extend3, sl.extend4, sl.extend5,
+    sl.extend6
+    from share_benefit_logs sl left join tcs_stflow ts on sl.order_id = ts.refcnceFlow
+    where sl.is_share = 1 and ts.STstate = 2
+
+  </select>
+
+</mapper>

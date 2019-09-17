@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.clearing.dao.InstitutionMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.Institution">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="institution_code" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="agency_code" property="agencyCode" jdbcType="VARCHAR"/>
+        <result column="agency_name" property="agencyName" jdbcType="VARCHAR"/>
+        <result column="cn_name" property="cnName" jdbcType="VARCHAR"/>
+        <result column="en_name" property="enName" jdbcType="VARCHAR"/>
+        <result column="institution_type" property="institutionType" jdbcType="INTEGER"/>
+        <result column="country_type" property="countryType" jdbcType="INTEGER"/>
+        <result column="settle_currency" property="settleCurrency" jdbcType="VARCHAR"/>
+        <result column="country" property="country" jdbcType="VARCHAR"/>
+        <result column="country_code" property="countryCode" jdbcType="VARCHAR"/>
+        <result column="float_rate" property="floatRate" jdbcType="DECIMAL"/>
+        <result column="legal_passport_code" property="legalPassportCode" jdbcType="VARCHAR"/>
+        <result column="legal_passport_img" property="legalPassportImg" jdbcType="VARCHAR"/>
+        <result column="legal_passport_validity" property="legalPassportValidity" jdbcType="VARCHAR"/>
+        <result column="institution_contract" property="institutionContract" jdbcType="VARCHAR"/>
+        <result column="institution_adress" property="institutionAdress" jdbcType="VARCHAR"/>
+        <result column="institution_phone" property="institutionPhone" jdbcType="VARCHAR"/>
+        <result column="institution_email" property="institutionEmail" jdbcType="VARCHAR"/>
+        <result column="contact_address" property="contactAddress" jdbcType="VARCHAR"/>
+        <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR"/>
+        <result column="contact_people" property="contactPeople" jdbcType="VARCHAR"/>
+        <result column="sale_contact_people" property="saleContactPeople" jdbcType="VARCHAR"/>
+        <result column="sale_contact_email" property="saleContactEmail" jdbcType="VARCHAR"/>
+        <result column="company_articles" property="companyArticles" jdbcType="VARCHAR"/>
+        <result column="audit_status" property="auditStatus" jdbcType="TINYINT"/>
+        <result column="legal_name" property="legalName" jdbcType="VARCHAR"/>
+        <result column="institution_web_url" property="institutionWebUrl" jdbcType="VARCHAR"/>
+        <result column="connect_limit" property="connectLimit" jdbcType="BIT"/>
+        <result column="company_regist_number" property="companyRegistNumber" jdbcType="VARCHAR"/>
+        <result column="company_validity" property="companyValidity" jdbcType="VARCHAR"/>
+        <result column="industry_category" property="industryCategory" jdbcType="VARCHAR"/>
+        <result column="business_category" property="businessCategory" jdbcType="VARCHAR"/>
+        <result column="business_certificate" property="businessCertificate" jdbcType="VARCHAR"/>
+        <result column="business_license" property="businessLicense" jdbcType="VARCHAR"/>
+        <result column="institution_postal_code" property="institutionPostalCode" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, create_time, update_time, creator, modifier, remark, enabled,
+    institution_code, cn_name, en_name, institution_type, settle_currency, country,country_type, country_code,legal_name,institution_web_url,
+    float_rate, legal_passport_code, legal_passport_img, institution_adress, institution_phone,legal_passport_validity,institution_contract,
+    institution_email, contact_address, contact_phone, contact_people,sale_contact_people, audit_status,sale_contact_email,company_articles,company_regist_number,
+    company_validity,industry_category,business_category,business_certificate,business_license,connect_limit,institution_postal_code,agency_code,agency_name
+    </sql>
+
+    <select id="selectByInstitutionCode" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"></include>
+    from institution
+    where institution_code = #{institutionCode} and enabled = true
+    </select>
+
+</mapper>

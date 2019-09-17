@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.finance.dao.TradeCheckAccountMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.TradeCheckAccount">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="institution_code" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="begin_time" property="beginTime" jdbcType="TIMESTAMP"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+        <result column="currency" property="currency" jdbcType="VARCHAR"/>
+        <result column="total_trade_amount" property="totalTradeAmount" jdbcType="DECIMAL"/>
+        <result column="total_trade_count" property="totalTradeCount" jdbcType="INTEGER"/>
+        <result column="total_refund_amount" property="totalRefundAmount" jdbcType="DECIMAL"/>
+        <result column="total_refund_count" property="totalRefundCount" jdbcType="INTEGER"/>
+        <result column="total_expenditure_amount" property="totalExpenditureAmount" jdbcType="DECIMAL"/>
+        <result column="total_expenditure_count" property="totalExpenditureCount" jdbcType="INTEGER"/>
+        <result column="fee" property="fee" jdbcType="DECIMAL"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, begin_time, end_time, currency, total_trade_amount, total_trade_count, total_refund_amount, institution_code,
+    total_refund_count, total_expenditure_amount, total_expenditure_count, fee, create_time, update_time, creator, modifier, remark
+  </sql>
+
+    <select id="pageTradeCheckAccount" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from trade_check_account
+        WHERE institution_code = #{institutionCode}
+        <if test="currency != null and currency != ''">
+            AND currency = #{currency}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND DATE_FORMAT(begin_time,'%Y-%m-%d') &gt;= #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND DATE_FORMAT(end_time,'%Y-%m-%d') &lt;= #{endDate}
+        </if>
+    </select>
+
+    <select id="exportTradeCheckAccount" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from trade_check_account
+        WHERE institution_code = #{institutionCode}
+        <if test="currency != null and currency != ''">
+            AND currency = #{currency}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND DATE_FORMAT(begin_time,'%Y-%m-%d') &gt;= #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND DATE_FORMAT(begin_time,'%Y-%m-%d') &lt;= #{endDate}
+        </if>
+      order by begin_time desc
+    </select>
+</mapper>

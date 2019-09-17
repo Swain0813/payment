@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.payment.institution.dao.SettleControlMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.SettleControl">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="account_id" jdbcType="VARCHAR" property="accountId"/>
+        <result column="min_settle_amount" jdbcType="DECIMAL" property="minSettleAmount"/>
+        <result column="settle_switch" jdbcType="BIT" property="settleSwitch"/>
+        <result column="enabled" jdbcType="BIT" property="enabled"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="modifier" jdbcType="VARCHAR" property="modifier"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, account_id, min_settle_amount, settle_switch, enabled, create_time, update_time,
+    creator, modifier, remark
+  </sql>
+    <select id="selectByAccountId" resultType="com.payment.common.entity.SettleControl">
+        select
+        <include refid="Base_Column_List"/>
+        from settle_control where account_id = #{accountId} and enabled = 1;
+    </select>
+
+</mapper>

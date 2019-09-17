@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.trade.dao.InstitutionProductMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.InstitutionProduct">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="institution_id" property="institutionId" jdbcType="VARCHAR"/>
+        <result column="product_id" property="productId" jdbcType="VARCHAR"/>
+        <result column="rate_type" property="rateType" jdbcType="VARCHAR"/>
+        <result column="min_tate" property="minTate" jdbcType="DECIMAL"/>
+        <result column="max_tate" property="maxTate" jdbcType="DECIMAL"/>
+        <result column="float_rate" property="floatRate" jdbcType="DECIMAL"/>
+        <result column="rate" property="rate" jdbcType="DECIMAL"/>
+        <result column="divided_mode" property="dividedMode" jdbcType="TINYINT"/>
+        <result column="divided_ratio" property="dividedRatio" jdbcType="DECIMAL"/>
+        <result column="add_value" property="addValue" jdbcType="DECIMAL"/>
+        <result column="limit_amount" property="limitAmount" jdbcType="DECIMAL"/>
+        <result column="daily_trading_count" property="dailyTradingCount" jdbcType="INTEGER"/>
+        <result column="daily_total_amount" property="dailyTotalAmount" jdbcType="DECIMAL"/>
+        <result column="fee_payer" property="feePayer" jdbcType="TINYINT"/>
+        <result column="audit_limit_status" property="auditLimitStatus" jdbcType="TINYINT"/>
+        <result column="audit_info_status" property="auditInfoStatus" jdbcType="TINYINT"/>
+        <result column="audit_limit_remark" property="auditLimitRemark" jdbcType="VARCHAR"/>
+        <result column="audit_info_remark" property="auditInfoRemark" jdbcType="VARCHAR"/>
+        <result column="settle_cycle" property="settleCycle" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="refund_rate_type" property="refundRateType" jdbcType="VARCHAR"/>
+        <result column="refund_min_tate" property="refundMinTate" jdbcType="DECIMAL"/>
+        <result column="refund_max_tate" property="refundMaxTate" jdbcType="DECIMAL"/>
+        <result column="refund_rate" property="refundRate" jdbcType="DECIMAL"/>
+        <result column="refund_add_value" property="refundAddValue" jdbcType="DECIMAL"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, institution_id, product_id, rate_type, min_tate, max_tate, rate,float_rate,
+        add_value, limit_amount, daily_trading_count, daily_total_amount, fee_payer, audit_limit_status, enabled,
+        audit_info_status, settle_cycle, create_time, update_time, creator, modifier, remark,audit_limit_remark,
+        audit_info_remark,refund_rate_type,refund_min_tate,refund_max_tate,refund_rate,refund_add_value,divided_mode,divided_ratio
+    </sql>
+
+    <select id="selectByProductCodeAndInstitutionCode"
+            resultType="com.payment.common.entity.InstitutionProduct" resultMap="BaseResultMap">
+        select ip.id,
+               ip.institution_id,
+               ip.product_id,
+               ip.rate_type,
+               ip.min_tate,
+               ip.max_tate,
+               ip.rate,
+               ip.add_value,
+               ip.limit_amount,
+               ip.daily_trading_count,
+               ip.float_rate,
+               ip.daily_total_amount,
+               ip.fee_payer,
+               ip.audit_limit_status,
+               ip.audit_info_status,
+               ip.audit_limit_remark,
+               ip.audit_info_remark,
+               ip.settle_cycle,
+               ip.create_time,
+               ip.update_time,
+               ip.creator,
+               ip.modifier,
+               ip.remark,
+               ip.enabled,
+               ip.refund_rate_type,
+               ip.refund_min_tate,
+               ip.refund_max_tate,
+               ip.refund_rate,
+               ip.refund_add_value
+        from institution i
+                 LEFT JOIN institution_product ip on i.id = ip.institution_id
+                 LEFT JOIN product p on ip.product_id = p.id
+        where i.institution_code = #{institutionCode}
+          and p.product_code = #{productCode}
+    </select>
+
+    <select id="selectByInstitutionIdAndProductId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from institution_product
+        where institution_id = #{institutionId}
+        AND product_id = #{productId}
+    </select>
+</mapper>

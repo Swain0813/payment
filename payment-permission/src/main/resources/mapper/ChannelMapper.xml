@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.permission.dao.ChannelMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.Channel">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="channel_code" property="channelCode" jdbcType="VARCHAR"/>
+        <result column="channel_en_name" property="channelEnName" jdbcType="VARCHAR"/>
+        <result column="pay_code" property="payCode" jdbcType="VARCHAR"/>
+        <result column="channel_cn_name" property="channelCnName" jdbcType="VARCHAR"/>
+        <result column="channel_img" property="channelImg" jdbcType="VARCHAR"/>
+        <result column="country" property="country" jdbcType="VARCHAR"/>
+        <result column="country_type" property="countryType" jdbcType="TINYINT"/>
+        <result column="sort" property="sort" jdbcType="VARCHAR"/>
+        <result column="trans_type" property="transType" jdbcType="TINYINT"/>
+        <result column="pay_type" property="payType" jdbcType="TINYINT"/>
+        <result column="currency" property="currency" jdbcType="VARCHAR"/>
+        <result column="issuer_id" property="issuerId" jdbcType="VARCHAR"/>
+        <result column="settle_cycle" property="settleCycle" jdbcType="VARCHAR"/>
+        <result column="channel_url" property="channelUrl" jdbcType="VARCHAR"/>
+        <result column="refund_url" property="refundUrl" jdbcType="VARCHAR"/>
+        <result column="channel_connect_method" property="channelConnectMethod" jdbcType="TINYINT"/>
+        <result column="limit_min_amount" property="limitMinAmount" jdbcType="DECIMAL"/>
+        <result column="limit_max_amount" property="limitMaxAmount" jdbcType="DECIMAL"/>
+        <result column="channel_rate" property="channelRate" jdbcType="DECIMAL"/>
+        <result column="channel_fee" property="channelFee" jdbcType="DECIMAL"/>
+        <result column="channel_min_rate" property="channelMinRate" jdbcType="DECIMAL"/>
+        <result column="channel_max_rate" property="channelMaxRate" jdbcType="DECIMAL"/>
+        <result column="channel_fee_type" property="channelFeeType" jdbcType="VARCHAR"/>
+        <result column="channel_gateway_rate" property="channelGatewayRate" jdbcType="DECIMAL"/>
+        <result column="channel_gateway_min_rate" property="channelGatewayMinRate" jdbcType="DECIMAL"/>
+        <result column="channel_gateway_max_rate" property="channelGatewayMaxRate" jdbcType="DECIMAL"/>
+        <result column="channel_gateway_fee" property="channelGatewayFee" jdbcType="DECIMAL"/>
+        <result column="channel_gateway_fee_type" property="channelGatewayFeeType" jdbcType="VARCHAR"/>
+        <result column="channel_gateway_charge" property="channelGatewayCharge" jdbcType="TINYINT"/>
+        <result column="channel_gateway_status" property="channelGatewayStatus" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="support_refund_state" property="supportRefundState" jdbcType="BIT"/>
+        <result column="channel_merchant_id" property="channelMerchantId" jdbcType="VARCHAR"/>
+        <result column="md5_key_str" property="md5KeyStr" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="selectAllChannelCode" resultType="java.lang.String">
+        select channel_code
+        from channel
+        where enabled = 1;
+    </select>
+
+
+</mapper>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.finance.dao.TradeCheckAccountDetailMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.TradeCheckAccountDetail">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <result column="institution_code" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="order_create_time" property="orderCreateTime" jdbcType="TIMESTAMP"/>
+        <result column="device_code" property="deviceCode" jdbcType="VARCHAR"/>
+        <result column="institution_order_id" property="institutionOrderId" jdbcType="VARCHAR"/>
+        <result column="pay_type" property="payType" jdbcType="VARCHAR"/>
+        <result column="order_currency" property="orderCurrency" jdbcType="VARCHAR"/>
+        <result column="amount" property="amount" jdbcType="DECIMAL"/>
+        <result column="trade_type" property="tradeType" jdbcType="TINYINT"/>
+        <result column="trade_status" property="tradeStatus" jdbcType="TINYINT"/>
+        <result column="cancel_status" property="cancelStatus" jdbcType="TINYINT"/>
+        <result column="refund_status" property="refundStatus" jdbcType="TINYINT"/>
+        <result column="pay_finish_time" property="payFinishTime" jdbcType="TIMESTAMP"/>
+        <result column="rate_type" property="rateType" jdbcType="VARCHAR"/>
+        <result column="rate" property="rate" jdbcType="DECIMAL"/>
+        <result column="fee" property="fee" jdbcType="DECIMAL"/>
+        <result column="add_value" property="addValue" jdbcType="DECIMAL"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="TradeAccountDetailVOMap" type="com.payment.common.vo.TradeAccountDetailVO">
+        <result column="order_currency" property="orderCurrency" jdbcType="VARCHAR"/>
+        <collection property="tradeCheckAccountDetailVOS" javaType="list" resultMap="TradeCheckAccountDetailVOMap"/>
+    </resultMap>
+
+    <resultMap id="TradeCheckAccountDetailVOMap" type="com.payment.common.vo.TradeCheckAccountDetailVO">
+        <result column="order_id" property="orderId" jdbcType="VARCHAR"/>
+        <result column="institution_code" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="order_create_time" property="orderCreateTime" jdbcType="TIMESTAMP"/>
+        <result column="device_code" property="deviceCode" jdbcType="VARCHAR"/>
+        <result column="institution_order_id" property="institutionOrderId" jdbcType="VARCHAR"/>
+        <result column="pay_type" property="payType" jdbcType="VARCHAR"/>
+        <result column="order_currency" property="orderCurrency" jdbcType="VARCHAR"/>
+        <result column="amount" property="amount" jdbcType="DECIMAL"/>
+        <result column="trade_type" property="tradeType" jdbcType="TINYINT"/>
+        <result column="trade_status" property="tradeStatus" jdbcType="TINYINT"/>
+        <result column="pay_finish_time" property="payFinishTime" jdbcType="TIMESTAMP"/>
+        <result column="rate_type" property="rateType" jdbcType="VARCHAR"/>
+        <result column="rate" property="rate" jdbcType="DECIMAL"/>
+        <result column="fee" property="fee" jdbcType="DECIMAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, order_id, order_create_time, device_code, institution_order_id, pay_type, order_currency, institution_code,
+    amount, trade_type, trade_status, cancel_status,refund_status,pay_finish_time, rate_type, rate, fee, add_value,
+   create_time, update_time, creator, modifier, remark
+  </sql>
+
+    <select id="exportTradeCheckAccount" resultMap="TradeAccountDetailVOMap">
+        select
+        t.id, t.order_id, t.order_create_time, t.device_code, t.institution_order_id, t.order_currency,t.
+        institution_code,
+        t.amount, t.trade_type, t.trade_status, t.pay_finish_time,t.rate, t.fee,
+        t.create_time, t.update_time, t.creator, t.modifier, t.remark,d.name as pay_type,di.name as rate_type
+        from trade_check_account_detail t
+        LEFT JOIN dictionary d ON t.pay_type = d. CODE
+        AND d. LANGUAGE = #{language}
+        LEFT JOIN dictionary di ON t.rate_type = di. CODE
+        AND di. LANGUAGE = #{language}
+        where t.institution_code = #{institutionCode}
+        <if test="startDate != null and startDate != ''">
+            AND DATE_FORMAT(t.order_create_time,'%Y-%m-%d')&gt;= #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND DATE_FORMAT(t.order_create_time,'%Y-%m-%d') &lt;= #{endDate}
+        </if>
+        <if test="currency != null and currency != ''">
+            AND t.order_currency = #{currency}
+        </if>
+        order by t.create_time desc
+    </select>
+</mapper>

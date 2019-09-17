@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.institution.dao.InstitutionChannelMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.InstitutionChannel">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="ins_pro_id" property="insProId" jdbcType="VARCHAR"/>
+        <result column="channel_id" property="channelId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="sort" property="sort" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+    </resultMap>
+
+    <resultMap id="ProductChannelVOMap" type="com.payment.common.vo.ProductChannelVO">
+        <id column="insChaId" property="insChaId" jdbcType="VARCHAR"/>
+        <id column="productId" property="productId" jdbcType="VARCHAR"/>
+        <id column="chaBankId" property="chaBankId" jdbcType="VARCHAR"/>
+        <id column="bankId" property="bankId" jdbcType="VARCHAR"/>
+        <id column="bankName" property="bankName" jdbcType="VARCHAR"/>
+        <id column="channelId" property="channelId" jdbcType="VARCHAR"/>
+        <id column="channelEnName" property="channelEnName" jdbcType="VARCHAR"/>
+        <id column="institutionCode" property="institutionCode" jdbcType="VARCHAR"/>
+        <id column="institutionName" property="institutionName" jdbcType="VARCHAR"/>
+        <result column="currency" property="currency" jdbcType="VARCHAR"/>
+        <result column="payType" property="payType" jdbcType="TINYINT"/>
+        <result column="channelName" property="channelName" jdbcType="VARCHAR"/>
+        <result column="issuerId" property="issuerId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="TIMESTAMP"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="sort" property="sort" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, ins_pro_id, channel_id, create_time, update_time, creator, modifier, remark,enabled,sort
+    </sql>
+
+    <select id="pageFindProductChannel" resultMap="ProductChannelVOMap"
+            resultType="com.payment.common.dto.SearchChannelDTO">
+        select ic.id as insChaId, p.id as productId ,ch.id as channelId, i.institution_code as institutionCode,
+        i.cn_name as institutionName, ch.currency as currency, concat(d.name,'-',p.currency) as payType
+        ,ch.channel_cn_name as channelName,ch.channel_en_name as channelEnName,
+        ic.update_time ,ic.create_time,ic.modifier,ic.enabled,ic.creator,b.issuer_id as issuerId,
+        cb.id as chaBankId,b.id as bankId,b.bank_name as bankName,ic.sort as sort
+        from institution i,institution_product ip,product p,institution_channel ic,channel ch,dictionary d,channel_bank cb,bank b
+        where i.id = ip.institution_id and ip.product_id = p.id
+        and ip.id = ic.ins_pro_id and ic.channel_id = cb.id
+        and ch.id = cb.channel_id
+        and cb.bank_id = b.id
+        and p.pay_type = d.code and d.language = #{language}
+        <if test="InstitutionCode != null and InstitutionCode != ''">
+            and i.Institution_code=#{InstitutionCode}
+        </if>
+        <if test="InstitutionName != null and InstitutionName != ''">
+            and i.cn_name LIKE CONCAT(CONCAT('%', #{InstitutionName}), '%')
+        </if>
+        <if test="productId != null and productId != ''">
+            and p.id=#{productId}
+        </if>
+        <if test="channelName != null and channelName != ''">
+            and ch.channel_cn_name LIKE CONCAT(CONCAT('%', #{channelName}), '%')
+        </if>
+        <if test="channelEnName != null and channelEnName != ''">
+            and ch.channel_en_name LIKE CONCAT(CONCAT('%', #{channelEnName}), '%')
+        </if>
+        <if test="currency != null and currency != ''">
+            and ch.currency=#{currency}
+        </if>
+        <if test="insChaId != null and insChaId != ''">
+            and ic.id=#{insChaId}
+        </if>
+        <if test="enabled != null">
+            and ic.enabled=#{enabled}
+        </if>
+        ORDER BY IFNULL(ic.create_time,ic.update_time) desc
+    </select>
+
+    <select id="selectByInsProId" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from institution_channel where ins_pro_id = #{insProId} and enabled = true order by sort
+    </select>
+
+    <select id="exportProductChannel" resultMap="ProductChannelVOMap">
+        select ic.id as insChaId, p.id as productId ,ch.id as channelId, i.institution_code as institutionCode,
+        i.cn_name as institutionName, ch.currency as currency, concat(d.name,'-',p.currency) as payType
+        ,ch.channel_cn_name as channelName,ch.channel_en_name as channelEnName,
+        ic.update_time ,ic.create_time,ic.modifier,ic.enabled,ic.creator,b.issuer_id as issuerId,
+        cb.id as chaBankId,b.id as bankId,b.bank_name as bankName,ic.sort as sort
+        from institution i,institution_product ip,product p,institution_channel ic,channel ch,dictionary d,channel_bank
+        cb,bank b
+        where i.id = ip.institution_id and ip.product_id = p.id
+        and ip.id = ic.ins_pro_id and ic.channel_id = cb.id
+        and ch.id = cb.channel_id
+        and cb.bank_id = b.id
+        and p.pay_type = d.code and d.language = #{language}
+        <if test="InstitutionCode != null and InstitutionCode != ''">
+            and i.Institution_code=#{InstitutionCode}
+        </if>
+        <if test="InstitutionName != null and InstitutionName != ''">
+            and i.cn_name LIKE CONCAT(CONCAT('%', #{InstitutionName}), '%')
+        </if>
+        <if test="productId != null and productId != ''">
+            and p.id=#{productId}
+        </if>
+        <if test="channelName != null and channelName != ''">
+            and ch.channel_cn_name LIKE CONCAT(CONCAT('%', #{channelName}), '%')
+        </if>
+        <if test="channelEnName != null and channelEnName != ''">
+            and ch.channel_en_name LIKE CONCAT(CONCAT('%', #{channelEnName}), '%')
+        </if>
+        <if test="currency != null and currency != ''">
+            and ch.currency=#{currency}
+        </if>
+        <if test="insChaId != null and insChaId != ''">
+            and ic.id=#{insChaId}
+        </if>
+        <if test="enabled != null">
+            and ic.enabled=#{enabled}
+        </if>
+        ORDER BY IFNULL(ic.create_time,ic.update_time) desc
+    </select>
+
+    <delete id="deleteByInsProId">
+        delete
+        from institution_channel
+        where ins_pro_id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.institution.dao.InstitutionMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.Institution">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="institution_code" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="agency_code" property="agencyCode" jdbcType="VARCHAR"/>
+        <result column="agency_name" property="agencyName" jdbcType="VARCHAR"/>
+        <result column="cn_name" property="cnName" jdbcType="VARCHAR"/>
+        <result column="en_name" property="enName" jdbcType="VARCHAR"/>
+        <result column="institution_type" property="institutionType" jdbcType="INTEGER"/>
+        <result column="country_type" property="countryType" jdbcType="INTEGER"/>
+        <result column="settle_currency" property="settleCurrency" jdbcType="VARCHAR"/>
+        <result column="country" property="country" jdbcType="VARCHAR"/>
+        <result column="country_code" property="countryCode" jdbcType="VARCHAR"/>
+        <result column="float_rate" property="floatRate" jdbcType="DECIMAL"/>
+        <result column="legal_passport_code" property="legalPassportCode" jdbcType="VARCHAR"/>
+        <result column="legal_passport_img" property="legalPassportImg" jdbcType="VARCHAR"/>
+        <result column="legal_passport_validity" property="legalPassportValidity" jdbcType="VARCHAR"/>
+        <result column="institution_contract" property="institutionContract" jdbcType="VARCHAR"/>
+        <result column="institution_adress" property="institutionAdress" jdbcType="VARCHAR"/>
+        <result column="institution_phone" property="institutionPhone" jdbcType="VARCHAR"/>
+        <result column="institution_email" property="institutionEmail" jdbcType="VARCHAR"/>
+        <result column="contact_address" property="contactAddress" jdbcType="VARCHAR"/>
+        <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR"/>
+        <result column="contact_people" property="contactPeople" jdbcType="VARCHAR"/>
+        <result column="sale_contact_people" property="saleContactPeople" jdbcType="VARCHAR"/>
+        <result column="sale_contact_email" property="saleContactEmail" jdbcType="VARCHAR"/>
+        <result column="company_articles" property="companyArticles" jdbcType="VARCHAR"/>
+        <result column="audit_status" property="auditStatus" jdbcType="TINYINT"/>
+        <result column="legal_name" property="legalName" jdbcType="VARCHAR"/>
+        <result column="institution_web_url" property="institutionWebUrl" jdbcType="VARCHAR"/>
+        <result column="connect_limit" property="connectLimit" jdbcType="BIT"/>
+        <result column="company_regist_number" property="companyRegistNumber" jdbcType="VARCHAR"/>
+        <result column="company_validity" property="companyValidity" jdbcType="VARCHAR"/>
+        <result column="industry_category" property="industryCategory" jdbcType="VARCHAR"/>
+        <result column="business_category" property="businessCategory" jdbcType="VARCHAR"/>
+        <result column="business_certificate" property="businessCertificate" jdbcType="VARCHAR"/>
+        <result column="business_license" property="businessLicense" jdbcType="VARCHAR"/>
+        <result column="institution_postal_code" property="institutionPostalCode" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="ExportMap" type="com.payment.common.vo.InstitutionExportVO">
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="institution_code" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="agency_code" property="agencyCode" jdbcType="VARCHAR"/>
+        <result column="agency_name" property="agencyName" jdbcType="VARCHAR"/>
+        <result column="cn_name" property="cnName" jdbcType="VARCHAR"/>
+        <result column="institution_type" property="institutionType" jdbcType="INTEGER"/>
+        <result column="country_type" property="countryType" jdbcType="INTEGER"/>
+        <result column="country" property="country" jdbcType="VARCHAR"/>
+        <result column="country_code" property="countryCode" jdbcType="VARCHAR"/>
+        <result column="legal_passport_code" property="legalPassportCode" jdbcType="VARCHAR"/>
+        <result column="legal_passport_validity" property="legalPassportValidity" jdbcType="VARCHAR"/>
+        <result column="institution_contract" property="institutionContract" jdbcType="VARCHAR"/>
+        <result column="institution_adress" property="institutionAdress" jdbcType="VARCHAR"/>
+        <result column="institution_phone" property="institutionPhone" jdbcType="VARCHAR"/>
+        <result column="institution_email" property="institutionEmail" jdbcType="VARCHAR"/>
+        <result column="contact_address" property="contactAddress" jdbcType="VARCHAR"/>
+        <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR"/>
+        <result column="contact_people" property="contactPeople" jdbcType="VARCHAR"/>
+        <result column="sale_contact_people" property="saleContactPeople" jdbcType="VARCHAR"/>
+        <result column="sale_contact_email" property="saleContactEmail" jdbcType="VARCHAR"/>
+        <result column="company_articles" property="companyArticles" jdbcType="VARCHAR"/>
+        <result column="audit_status" property="auditStatus" jdbcType="TINYINT"/>
+        <result column="legal_name" property="legalName" jdbcType="VARCHAR"/>
+        <result column="institution_web_url" property="institutionWebUrl" jdbcType="VARCHAR"/>
+        <result column="connect_limit" property="connectLimit" jdbcType="BIT"/>
+        <result column="company_regist_number" property="companyRegistNumber" jdbcType="VARCHAR"/>
+        <result column="company_validity" property="companyValidity" jdbcType="VARCHAR"/>
+        <result column="industry_category" property="industryCategory" jdbcType="VARCHAR"/>
+        <result column="business_category" property="businessCategory" jdbcType="VARCHAR"/>
+        <result column="business_certificate" property="businessCertificate" jdbcType="VARCHAR"/>
+        <result column="business_license" property="businessLicense" jdbcType="VARCHAR"/>
+        <result column="institution_postal_code" property="institutionPostalCode" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="secondResultMap" type="com.payment.common.vo.InstitutionDetailVO">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="updateTime" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="institutionCode" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="agencyCode" property="agencyCode" jdbcType="VARCHAR"/>
+        <result column="agencyName" property="agencyName" jdbcType="VARCHAR"/>
+        <result column="cnName" property="cnName" jdbcType="VARCHAR"/>
+        <result column="enName" property="enName" jdbcType="VARCHAR"/>
+        <result column="institutionType" property="institutionType" jdbcType="INTEGER"/>
+        <result column="countryType" property="countryType" jdbcType="INTEGER"/>
+        <result column="settleCurrency" property="settleCurrency" jdbcType="VARCHAR"/>
+        <result column="country" property="country" jdbcType="VARCHAR"/>
+        <result column="countryCode" property="countryCode" jdbcType="VARCHAR"/>
+        <result column="floatRate" property="floatRate" jdbcType="DECIMAL"/>
+        <result column="legalPassportCode" property="legalPassportCode" jdbcType="VARCHAR"/>
+        <result column="legalPassportImg" property="legalPassportImg" jdbcType="VARCHAR"/>
+        <result column="legalPassportValidity" property="legalPassportValidity" jdbcType="VARCHAR"/>
+        <result column="institutionContract" property="institutionContract" jdbcType="VARCHAR"/>
+        <result column="institutionAdress" property="institutionAdress" jdbcType="VARCHAR"/>
+        <result column="institutionPhone" property="institutionPhone" jdbcType="VARCHAR"/>
+        <result column="institutionEmail" property="institutionEmail" jdbcType="VARCHAR"/>
+        <result column="legalName" property="legalName" jdbcType="VARCHAR"/>
+        <result column="institutionWebUrl" property="institutionWebUrl" jdbcType="VARCHAR"/>
+        <result column="contactAddress" property="contactAddress" jdbcType="VARCHAR"/>
+        <result column="contactPhone" property="contactPhone" jdbcType="VARCHAR"/>
+        <result column="contactPeople" property="contactPeople" jdbcType="VARCHAR"/>
+        <result column="saleContactPeople" property="saleContactPeople" jdbcType="VARCHAR"/>
+        <result column="saleContactEmail" property="saleContactEmail" jdbcType="VARCHAR"/>
+        <result column="companyArticles" property="companyArticles" jdbcType="VARCHAR"/>
+        <result column="auditStatus" property="auditStatus" jdbcType="TINYINT"/>
+        <result column="connectLimit" property="connectLimit" jdbcType="BIT"/>
+        <result column="companyRegistNumber" property="companyRegistNumber" jdbcType="VARCHAR"/>
+        <result column="companyValidity" property="companyValidity" jdbcType="VARCHAR"/>
+        <result column="industryCategory" property="industryCategory" jdbcType="VARCHAR"/>
+        <result column="businessCategory" property="businessCategory" jdbcType="VARCHAR"/>
+        <result column="businessCertificate" property="businessCertificate" jdbcType="VARCHAR"/>
+        <result column="businessLicense" property="businessLicense" jdbcType="VARCHAR"/>
+        <result column="institutionPostalCode" property="institutionPostalCode" jdbcType="VARCHAR"/>
+        <collection javaType="list" property="bankCardVOS" resultMap="BankCardResultMap"/>
+    </resultMap>
+
+    <resultMap id="BankCardResultMap" type="com.payment.common.vo.BankCardVO">
+        <id column="bankCardId" property="bankCardId" jdbcType="VARCHAR"/>
+        <result column="institutionId" property="institutionId" jdbcType="VARCHAR"/>
+        <result column="accountCode" property="accountCode" jdbcType="VARCHAR"/>
+        <result column="accountName" property="accountName" jdbcType="VARCHAR"/>
+        <result column="bankName" property="bankName" jdbcType="VARCHAR"/>
+        <result column="bankCurrency" property="bankCurrency" jdbcType="VARCHAR"/>
+        <result column="swiftCode" property="swiftCode" jdbcType="VARCHAR"/>
+        <result column="bankCode" property="bankCode" jdbcType="VARCHAR"/>
+        <result column="bankAddress" property="bankAddress" jdbcType="VARCHAR"/>
+        <result column="nature" property="nature" jdbcType="TINYINT"/>
+        <result column="receiverCountry" property="receiverCountry" jdbcType="TINYINT"/>
+        <result column="receiverAddress" property="receiverAddress" jdbcType="VARCHAR"/>
+        <result column="receiver" property="receiver" jdbcType="VARCHAR"/>
+        <result column="iban" property="iban" jdbcType="VARCHAR"/>
+        <result column="b_createTime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="b_updateTime" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="b_creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="b_modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="b_remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="b_enabled" property="enabled" jdbcType="BIT"/>
+        <result column="bankAccountCode" property="bankAccountCode" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="InstitutionAccountMap" type="com.payment.common.vo.InstitutionAccountVO">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="institution_code" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="cn_name" property="cnName" jdbcType="VARCHAR"/>
+        <result column="en_name" property="enName" jdbcType="VARCHAR"/>
+        <result column="institution_type" property="institutionType" jdbcType="INTEGER"/>
+        <result column="country_type" property="countryType" jdbcType="INTEGER"/>
+        <result column="settle_currency" property="settleCurrency" jdbcType="VARCHAR"/>
+        <result column="country" property="country" jdbcType="VARCHAR"/>
+        <result column="country_code" property="countryCode" jdbcType="VARCHAR"/>
+        <result column="float_rate" property="floatRate" jdbcType="DECIMAL"/>
+        <result column="legal_passport_code" property="legalPassportCode" jdbcType="VARCHAR"/>
+        <result column="legal_passport_img" property="legalPassportImg" jdbcType="VARCHAR"/>
+        <result column="legal_passport_validity" property="legalPassportValidity" jdbcType="VARCHAR"/>
+        <result column="institution_contract" property="institutionContract" jdbcType="VARCHAR"/>
+        <result column="institution_adress" property="institutionAdress" jdbcType="VARCHAR"/>
+        <result column="institution_phone" property="institutionPhone" jdbcType="VARCHAR"/>
+        <result column="institution_email" property="institutionEmail" jdbcType="VARCHAR"/>
+        <result column="contact_address" property="contactAddress" jdbcType="VARCHAR"/>
+        <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR"/>
+        <result column="contact_people" property="contactPeople" jdbcType="VARCHAR"/>
+        <result column="sale_contact_people" property="saleContactPeople" jdbcType="VARCHAR"/>
+        <result column="sale_contact_email" property="saleContactEmail" jdbcType="VARCHAR"/>
+        <result column="company_articles" property="companyArticles" jdbcType="VARCHAR"/>
+        <result column="audit_status" property="auditStatus" jdbcType="TINYINT"/>
+        <result column="legal_name" property="legalName" jdbcType="VARCHAR"/>
+        <result column="institution_web_url" property="institutionWebUrl" jdbcType="VARCHAR"/>
+        <result column="connect_limit" property="connectLimit" jdbcType="BIT"/>
+        <result column="company_regist_number" property="companyRegistNumber" jdbcType="VARCHAR"/>
+        <result column="company_validity" property="companyValidity" jdbcType="VARCHAR"/>
+        <result column="industry_category" property="industryCategory" jdbcType="VARCHAR"/>
+        <result column="business_category" property="businessCategory" jdbcType="VARCHAR"/>
+        <result column="business_certificate" property="businessCertificate" jdbcType="VARCHAR"/>
+        <result column="business_license" property="businessLicense" jdbcType="VARCHAR"/>
+        <result column="institution_postal_code" property="institutionPostalCode" jdbcType="VARCHAR"/>
+        <collection property="accounts" javaType="list" resultMap="AccountCurrencyMap"></collection>
+    </resultMap>
+    <resultMap id="AccountCurrencyMap" type="com.payment.common.vo.AccountCurrencyVO">
+        <result column="currency" property="currency" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="AgencyInstitutionVOMap" type="com.payment.common.vo.AgencyInstitutionVO">
+        <result column="institutionCode" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="institutionName" property="institutionName" jdbcType="VARCHAR"/>
+        <result column="productName" property="productName" jdbcType="VARCHAR"/>
+        <result column="rateType" property="rateType" jdbcType="VARCHAR"/>
+        <result column="rate" property="rate" jdbcType="DECIMAL"/>
+        <result column="addValue" property="addValue" jdbcType="DECIMAL"/>
+        <result column="auditStatus" property="auditStatus" jdbcType="TINYINT"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, create_time, update_time, creator, modifier, remark, enabled,
+    institution_code, cn_name, en_name, institution_type, settle_currency, country,country_type, country_code,legal_name,institution_web_url,
+    float_rate, legal_passport_code, legal_passport_img, institution_adress, institution_phone,legal_passport_validity,institution_contract,
+    institution_email, contact_address, contact_phone, contact_people,sale_contact_people, audit_status,sale_contact_email,company_articles,company_regist_number,
+    company_validity,industry_category,business_category,business_certificate,business_license,connect_limit,institution_postal_code,agency_code,agency_name
+    </sql>
+
+    <sql id="Second_Column_List">
+        i.id, i.create_time, i.update_time, i.creator, i.modifier, i.remark, i.enabled,
+        i.institution_code, i.cn_name, i.en_name, i.institution_type, i.settle_currency, i.country,i.country_type,
+        i.country_code,i.agency_code,
+        i.float_rate, i.legal_passport_code, i.legal_passport_img, i.institution_adress,
+        i.institution_phone,i.legal_passport_validity,i.institution_contract,institution_postal_code,
+        i.institution_email, i.contact_address, i.contact_phone, i.contact_people,i.sale_contact_people,
+        i.audit_status,i.sale_contact_email,i.connect_limit,i.institution_web_url,
+    </sql>
+
+    <select id="pageFindInstitution" resultMap="BaseResultMap" resultType="com.payment.common.dto.InstitutionDTO">
+        select
+        i.id, i.create_time, i.update_time, i.creator, i.modifier, i.remark, i.enabled,
+        i.institution_code, i.cn_name, i.en_name, i.institution_type, i.settle_currency,d.name as
+        country,i.country_type,i.country_code,
+        i.float_rate, i.legal_passport_code, i.legal_passport_img, i.institution_adress,
+        i.institution_phone,i.legal_passport_validity,i.institution_contract,
+        i.institution_email,i.contact_address, i.contact_phone, i.contact_people,i.sale_contact_people,
+        i.audit_status,i.sale_contact_email,i.company_articles,
+        i.legal_name,i.institution_web_url,i.company_regist_number,i.company_validity,i.industry_category,i.business_category,i.business_certificate,i.business_license,
+        i.connect_limit,i.institution_postal_code,i.agency_code,i.agency_name
+        from institution i left join dictionary d on d.code = i.country and d.language=#{language}
+        <where>
+            <if test="institutionCode!=null and institutionCode != ''">
+                and i.institution_code=#{institutionCode}
+            </if>
+            <if test="institutionType!=null and institutionType != ''">
+                and i.institution_type=#{institutionType}
+            </if>
+            <if test="agencyCode!=null and agencyCode != ''">
+                and i.agency_code=#{agencyCode}
+            </if>
+            <if test="cnName != null and cnName != ''">
+                and i.cn_name LIKE CONCAT(CONCAT('%', #{cnName}), '%')
+            </if>
+            <if test="agencyName != null and agencyName != ''">
+                and i.agency_name LIKE CONCAT(CONCAT('%', #{agencyName}), '%')
+            </if>
+            <if test="saleContactPeople != null and saleContactPeople != ''">
+                and i.sale_contact_people LIKE CONCAT(CONCAT('%', #{saleContactPeople}), '%')
+            </if>
+            <if test="enabled != null">
+                and i.enabled=#{enabled}
+            </if>
+            <if test="country != null and country != ''">
+                and i.country=#{country}
+            </if>
+            <if test="auditStatus != null and auditStatus != ''">
+                and i.audit_status=#{auditStatus}
+            </if>
+            <if test="startTime != null and startTime != ''">
+                AND DATE_FORMAT(i.create_time,'%Y-%m-%d') &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND DATE_FORMAT(i.create_time,'%Y-%m-%d') &lt;= #{endTime}
+            </if>
+            <if test="countryType != null and countryType != ''">
+                and i.country_type=#{countryType}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectExport" resultMap="ExportMap">
+        select
+        i.institution_code,
+        i.cn_name,
+        i.agency_code,
+        i.agency_name,
+        i.institution_type,
+        d.name as country,
+        i.country_code,
+        i.country_type,
+        i.legal_name,
+        i.legal_passport_code,
+        i.legal_passport_validity,
+        i.institution_adress,
+        i.institution_phone,
+        i.institution_email,
+        i.institution_web_url,
+        i.contact_phone,
+        i.contact_people,
+        i.sale_contact_people,
+        i.contact_address,
+        i.institution_contract,
+        i.sale_contact_email,
+        i.audit_status,
+        i.enabled,
+        i.create_time,
+        i.update_time,
+        i.creator,
+        i.modifier,
+        i.company_articles,
+        i.remark,
+        i.company_regist_number,
+        i.company_validity,
+        i.industry_category,
+        i.business_category,
+        i.business_certificate,
+        i.business_license,
+        i.connect_limit,
+        i.institution_postal_code
+        from institution i left join dictionary d on
+        d.code = i.country and d.language=#{language}
+        <where>
+            <if test="institutionCode!=null and institutionCode != ''">
+                and i.institution_code=#{institutionCode}
+            </if>
+            <if test="institutionType!=null and institutionType != ''">
+                and i.institution_type=#{institutionType}
+            </if>
+            <if test="cnName != null and cnName != ''">
+                and i.cn_name LIKE CONCAT(CONCAT('%', #{cnName}), '%')
+            </if>
+            <if test="saleContactPeople != null and saleContactPeople != ''">
+                and i.sale_contact_people LIKE CONCAT(CONCAT('%', #{saleContactPeople}), '%')
+            </if>
+            <if test="enabled != null">
+                and i.enabled=#{enabled}
+            </if>
+            <if test="country != null and country != ''">
+                and i.country=#{country}
+            </if>
+            <if test="auditStatus != null and auditStatus != ''">
+                and i.audit_status=#{auditStatus}
+            </if>
+            <if test="floatRate != null and floatRate != ''">
+                and i.float_rate=#{floatRate}
+            </if>
+            <if test="startTime != null and startTime != ''">
+                AND DATE_FORMAT(i.create_time,'%Y-%m-%d') &gt;= #{startTime}
+            </if>
+            <if test="endTime != null and endTime != ''">
+                AND DATE_FORMAT(i.create_time,'%Y-%m-%d') &lt;= #{endTime}
+            </if>
+            <if test="countryType != null and countryType != ''">
+                and i.country_type=#{countryType}
+            </if>
+        </where>
+        order by i.create_time desc
+    </select>
+
+    <select id="getInstitutionDetail" resultMap="secondResultMap" resultType="String">
+        select i.id                      as id,
+               i.create_time             as createTime,
+               i.update_time             as updateTime,
+               i.creator                 as creator,
+               i.modifier                as modifier,
+               i.remark                  as remark,
+               i.enabled                 as enabled,
+               i.institution_code        as institutionCode,
+               i.cn_name                 as cnName,
+               i.en_name                 as enName,
+               i.institution_type        as institutionType,
+               i.country_type            as countryType,
+               i.settle_currency         as settleCurrency,
+               i.country                 as country,
+               i.country_code            as countryCode,
+               i.float_rate              as floatRate,
+               i.legal_name              as legalName,
+               i.legal_passport_code     as legalPassportCode,
+               i.legal_passport_img      as legalPassportImg,
+               i.legal_passport_validity as legalPassportValidity,
+               i.institution_contract    as institutionContract,
+               i.institution_adress      as institutionAdress,
+               i.institution_phone       as institutionPhone,
+               i.institution_email       as institutionEmail,
+               i.institution_web_url     as institutionWebUrl,
+               i.company_articles        as companyArticles,
+               i.contact_address         as contactAddress,
+               i.contact_phone           as contactPhone,
+               i.contact_people          as contactPeople,
+               i.sale_contact_people     as saleContactPeople,
+               i.sale_contact_email      as saleContactEmail,
+               i.audit_status            as auditStatus,
+               b.id                      as bankCardId,
+               b.institution_id,
+               b.account_code            as accountCode,
+               b.account_name            as accountName,
+               b.bank_name               as bankName,
+               b.bank_currency           as bankCurrency,
+               b.swift_code              as swiftCode,
+               b.bank_code               as bankCode,
+               b.bank_address            as bankAddress,
+               b.nature                  as nature,
+               b.receiver_country        as receiverCountry,
+               b.receiver_address        as receiverAddress,
+               b.receiver                as receiver,
+               b.iban                    as iban,
+               b.bank_account_code       as bankAccountCode,
+               b.create_time             as b_createTime,
+               b.update_time             as b_updateTime,
+               b.creator                 as b_creator,
+               b.modifier                as b_modifier,
+               b.remark                  as b_remark,
+               b.enabled                 as b_enabled,
+               i.company_regist_number   as companyRegistNumber,
+               i.company_validity        as companyValidity,
+               i.industry_category       as industryCategory,
+               i.business_category       as businessCategory,
+               i.business_certificate    as businessCertificate,
+               i.business_license        as businessLicense,
+               i.connect_limit           as connectLimit,
+               i.institution_postal_code as institutionPostalCode,
+               i.agency_code             as agencyCode,
+               i.agency_name             as agencyName
+        from institution i
+                 left join bank_card b on i.institution_code = b.institution_id and b.enabled = 1
+        where i.id = #{institutionId}
+    </select>
+
+    <select id="getInstitutionInfoByName" resultMap="BaseResultMap">
+        select institution_code,
+        cn_name
+        from institution
+        <where>
+            <if test="cnName!=null and cnName != ''">
+                and cn_name LIKE CONCAT(CONCAT('%', #{cnName}), '%')
+            </if>
+            <if test="institutionType!=null and institutionType != ''">
+                and institution_type=#{institutionType}
+            </if>
+            AND enabled = 1
+        </where>
+    </select>
+
+
+    <select id="getInstitutionAccountInfoByCode" resultMap="InstitutionAccountMap">
+        select
+        <include refid="Second_Column_List"></include>
+        a.currency
+        from institution i left join account a on i.institution_code = a.institution_id
+        where i.institution_code = #{institutionCode}
+    </select>
+
+
+    <select id="getAgencyList" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from institution
+        <where>
+            <if test="institutionCode!=null and institutionCode != ''">
+                and institution_code=#{institutionCode}
+            </if>
+            <if test="institutionType != null and institutionType != ''">
+                and institution_type=#{institutionType}
+            </if>
+        </where>
+    </select>
+
+    <select id="pageAgencyInstitution" resultMap="AgencyInstitutionVOMap">
+        SELECT i.create_time AS createTime,
+        i.institution_code AS institutionCode,
+        i.cn_name AS institutionName,
+        CONCAT(d.NAME, '-', p.currency) AS productName,
+        dd.NAME AS rateType,
+        ip.rate AS rate,
+        ip.add_value AS addValue,
+        i.audit_status AS auditStatus
+        FROM institution i
+        LEFT JOIN institution_product ip ON i.id = ip.institution_id
+        LEFT JOIN product p ON ip.product_id = p.id
+        LEFT JOIN dictionary d ON p.pay_type = d.`code`
+        AND d.`language` = #{language}
+        LEFT JOIN dictionary dd ON ip.rate_type = dd.`code`
+        AND dd.`language` = #{language}
+        WHERE i.agency_code = #{agencyCode}
+        <if test="institutionCode != null and institutionCode != ''">
+            AND i.institution_code = #{institutionCode}
+        </if>
+        <if test="institutionName != null and institutionName != ''">
+            AND i.cn_name LIKE CONCAT(CONCAT('%', #{institutionName}), '%')
+        </if>
+        <if test="auditStatus != null">
+            AND i.audit_status = #{auditStatus}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND i.create_time &gt;= #{startDate}
+        </if>
+        <if test="endDate != null  and endDate != ''">
+            AND i.create_time &lt;= #{endDate}
+        </if>
+    </select>
+
+    <select id="exportAgencyInstitution" resultMap="AgencyInstitutionVOMap">
+        SELECT i.create_time AS createTime,
+        i.institution_code AS institutionCode,
+        i.cn_name AS institutionName,
+        CONCAT(d.NAME, '-', p.currency) AS productName,
+        dd.NAME AS rateType,
+        ip.rate AS rate,
+        ip.add_value AS addValue,
+        i.audit_status AS auditStatus
+        FROM institution i
+        LEFT JOIN institution_product ip ON i.id = ip.institution_id
+        LEFT JOIN product p ON ip.product_id = p.id
+        LEFT JOIN dictionary d ON p.pay_type = d.`code`
+        AND d.`language` = #{language}
+        LEFT JOIN dictionary dd ON ip.rate_type = dd.`code`
+        AND dd.`language` = #{language}
+        WHERE i.agency_code = #{agencyCode}
+        <if test="institutionCode != null and institutionCode != ''">
+            AND i.institution_code = #{institutionCode}
+        </if>
+        <if test="institutionName != null and institutionName != ''">
+            AND i.cn_name LIKE CONCAT(CONCAT('%', #{institutionName}), '%')
+        </if>
+        <if test="auditStatus != null">
+            AND i.audit_status = #{auditStatus}
+        </if>
+        <if test="startDate != null and startDate != ''">
+            AND i.create_time &gt;= #{startDate}
+        </if>
+        <if test="endDate != null  and endDate != ''">
+            AND i.create_time &lt;= #{endDate}
+        </if>
+    </select>
+
+    <select id="getInstitutionByCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from institution
+        where institution_code = #{institutionCode}
+    </select>
+</mapper>

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.institution.dao.ProductMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.Product">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="product_code" property="productCode" jdbcType="INTEGER"/>
+        <result column="trans_type" property="transType" jdbcType="TINYINT"/>
+        <result column="pay_type" property="payType" jdbcType="VARCHAR"/>
+        <result column="trade_direction" property="tradeDirection" jdbcType="TINYINT"/>
+        <result column="currency" property="currency" jdbcType="VARCHAR"/>
+        <result column="limit_amount" property="limitAmount" jdbcType="DECIMAL"/>
+        <result column="daily_trading_count" property="dailyTradingCount" jdbcType="INTEGER"/>
+        <result column="daily_total_amount" property="dailyTotalAmount" jdbcType="DECIMAL"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="product_img" property="productImg" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+    </resultMap>
+    <resultMap id="ProductResultMap" type="com.payment.common.vo.ProductVO">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="productCode" property="productCode" jdbcType="INTEGER"/>
+        <result column="transType" property="transType" jdbcType="TINYINT"/>
+        <result column="payType" property="payType" jdbcType="VARCHAR"/>
+        <result column="tradeDirection" property="tradeDirection" jdbcType="TINYINT"/>
+        <result column="currency" property="currency" jdbcType="VARCHAR"/>
+        <result column="dailyTradingCount" property="dailyTradingCount" jdbcType="INTEGER"/>
+        <result column="limitAmount" property="limitAmount" jdbcType="DECIMAL"/>
+        <result column="dailyTotalAmount" property="dailyTotalAmount" jdbcType="DECIMAL"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="product_img" property="productImg" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+    </resultMap>
+
+    <resultMap id="ExportProductMap" type="com.payment.common.vo.ExportProductVO">
+        <result column="productCode" property="productCode" jdbcType="INTEGER"/>
+        <result column="productName" property="productName" jdbcType="VARCHAR"/>
+        <result column="transType" property="transType" jdbcType="TINYINT"/>
+        <result column="payType" property="payType" jdbcType="VARCHAR"/>
+        <result column="tradeDirection" property="tradeDirection" jdbcType="TINYINT"/>
+        <result column="currency" property="currency" jdbcType="VARCHAR"/>
+        <result column="limitAmount" property="limitAmount" jdbcType="DECIMAL"/>
+        <result column="dailyTradingCount" property="dailyTradingCount" jdbcType="INTEGER"/>
+        <result column="dailyTotalAmount" property="dailyTotalAmount" jdbcType="DECIMAL"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, product_code, trans_type, pay_type, currency, create_time, update_time, creator, product_img,
+    modifier, remark, enabled, trade_direction,limit_amount,daily_trading_count,daily_total_amount
+  </sql>
+
+    <select id="pageProduct" resultMap="ProductResultMap"
+            resultType="com.payment.common.dto.ProductSearchDTO">
+        select
+        p.id as id ,p.product_code as productCode,p.trans_type as transType,d.name as payType,p.trade_direction as
+        tradeDirection,p.product_img as productImg,
+        p.currency as currency,p.create_time ,p.update_time ,p.creator as creator,p.modifier as modifier,p.remark as
+        remark,p.enabled as enabled,p.limit_amount as limitAmount,
+        p.daily_trading_count as dailyTradingCount,p.daily_total_amount as dailyTotalAmount
+        from product p, dictionary d
+        <where>
+            p.pay_type = d.`code`
+            <if test="payType!=null and payType != ''">
+                and p.pay_type=#{payType}
+            </if>
+            <if test="transType != null and transType != ''">
+                and p.trans_type =#{transType}
+            </if>
+            <if test="tradeDirection != null and tradeDirection != ''">
+                and p.trade_direction =#{tradeDirection}
+            </if>
+            <if test="language != null and language != ''">
+                and d.language =#{language}
+            </if>
+        </where>
+    </select>
+
+    <select id="exportProduct" resultMap="ExportProductMap">
+        select
+        p.id as id ,p.product_code as productCode,p.trans_type as transType,d.name as payType,p.trade_direction as
+        tradeDirection,p.product_img as productImg,
+        p.currency as currency,p.create_time ,p.update_time ,p.creator as creator,p.modifier as modifier,p.remark as
+        remark,p.enabled as enabled,p.limit_amount as limitAmount,
+        p.daily_trading_count as dailyTradingCount,p.daily_total_amount as
+        dailyTotalAmount,concat(d.name,'-',p.currency) as productName
+        from product p, dictionary d
+        <where>
+            p.pay_type = d.`code`
+            <if test="payType!=null and payType != ''">
+                and p.pay_type=#{payType}
+            </if>
+            <if test="transType != null and transType != ''">
+                and p.trans_type =#{transType}
+            </if>
+            <if test="tradeDirection != null and tradeDirection != ''">
+                and p.trade_direction =#{tradeDirection}
+            </if>
+            <if test="language != null and language != ''">
+                and d.language =#{language}
+            </if>
+        </where>
+        order by p.create_time desc
+    </select>
+
+    <select id="getAllProduct" resultMap="ProductResultMap"
+            resultType="com.payment.common.dto.ProductSearchDTO">
+        select
+        p.id as id ,p.product_code as productCode,p.trans_type as transType,d.name as payType,p.trade_direction as
+        tradeDirection,p.product_img as productImg,
+        p.currency as currency,p.create_time ,p.update_time ,p.creator as creator,p.modifier as modifier,p.remark as
+        remark,p.enabled as enabled,p.limit_amount as limitAmount,
+        p.daily_trading_count as dailyTradingCount,p.daily_total_amount as dailyTotalAmount
+        from product p, dictionary d
+        <where>
+            p.pay_type = d.`code`
+            <if test="payType!=null and payType != ''">
+                and p.pay_type=#{payType}
+            </if>
+            <if test="transType != null and transType != ''">
+                and p.trans_type =#{transType}
+            </if>
+            <if test="tradeDirection != null and tradeDirection != ''">
+                and p.trade_direction =#{tradeDirection}
+            </if>
+            <if test="language != null and language != ''">
+                and d.language =#{language}
+            </if>
+        </where>
+    </select>
+
+    <select id="getProductById" resultMap="BaseResultMap" resultType="String">
+        select
+        <include refid="Base_Column_List"></include>
+        from product where id = #{id}
+    </select>
+
+</mapper>

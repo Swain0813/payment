@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.permission.dao.SysUserMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.SysUser">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="institution_id" property="institutionId" jdbcType="TIMESTAMP"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/>
+        <result column="trade_password" property="tradePassword" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="language" property="language" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+    </resultMap>
+    <resultMap id="SysUserSecMap" type="com.payment.permission.vo.SysUserSecVO">
+        <id column="id" property="userId" jdbcType="VARCHAR"/>
+        <id column="create_time" property="createTime" jdbcType="VARCHAR"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="institution_id" property="institutionId" jdbcType="TIMESTAMP"/>
+        <result column="institution_code" property="institutionCode" jdbcType="TIMESTAMP"/>
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="SecondResultMap" type="com.payment.common.vo.SysUserVO">
+        <id column="id" property="id"/>
+        <id column="institution_id" property="institutionId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="type" property="type"/>
+        <result column="remark" property="remark"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="trade_password" property="tradePassword"/>
+        <result column="name" property="name"/>
+        <result column="mobile" property="mobile"/>
+        <result column="email" property="email"/>
+        <result column="enabled" property="enabled"/>
+        <result column="creator" property="creator"/>
+        <result column="modifier" property="modifier"/>
+        <collection javaType="list" property="role" resultMap="Role"/>
+    </resultMap>
+
+    <resultMap id="Role" type="com.payment.common.vo.SysRoleVO">
+        <id column="rid" property="id"/>
+        <result column="r_create_time" property="createTime"/>
+        <result column="r_update_time" property="updateTime"/>
+        <result column="r_remark" property="remark"/>
+        <result column="r_name" property="roleName"/>
+        <result column="r_code" property="roleCode"/>
+        <result column="r_description" property="description"/>
+        <result column="r_status" property="enabled"/>
+        <result column="r_sort" property="sort"/>
+        <result column="r_creator" property="creator"/>
+        <result column="r_modifier" property="modifier"/>
+        <collection javaType="list" resultMap="Menus" property="menus"/>
+    </resultMap>
+
+    <resultMap id="Menus" type="com.payment.common.vo.SysMenuVO">
+        <id column="mid" property="id"/>
+        <result column="eName" property="eName"/>
+        <result column="cName" property="cName"/>
+        <result column="url" property="url"/>
+    </resultMap>
+
+    <select id="getSysUser" resultMap="SecondResultMap" parameterType="String">
+        select DISTINCT u.id,
+                        u.institution_id,
+                        u.create_time,
+                        u.update_time,
+                        u.type,
+                        u.remark,
+                        u.username,
+                        u.password,
+                        u.trade_password,
+                        u.modifier,
+                        u.email,
+                        u.mobile,
+                        u.creator,
+                        u.name,
+                        u.enabled,
+                        r.id          as rid,
+                        r.create_time as r_create_time,
+                        r.update_time as r_update_time,
+                        r.remark      as r_remark,
+                        r.role_name   as r_name,
+                        r.role_code   as r_code,
+                        r.description as r_description,
+                        r.sort        as r_sort,
+                        r.enabled     as r_status,
+                        r.creator     as r_creator,
+                        r.modifier    as r_modifier,
+                        m.id          as mid,
+                        m.en_name     as eName,
+                        m.cn_name     as cName,
+                        m.url         as url
+        from sys_user u,
+             sys_role r,
+             sys_user_role ur,
+             sys_menu m,
+             sys_role_menu rm
+        where r.id in (select r.id
+                       from sys_user u,
+                            sys_role r,
+                            sys_user_role ur
+                       where u.username = #{userName}
+                         and ur.user_id = u.id
+                         and ur.role_id = r.id)
+          and ur.role_id = r.id
+          and ur.user_id = u.id
+          and rm.role_id = r.id
+          and rm.menu_id = m.id
+          and u.username = #{userName}
+        union
+        select DISTINCT u.id,
+                        u.institution_id,
+                        u.create_time,
+                        u.update_time,
+                        u.type,
+                        u.remark,
+                        u.username,
+                        u.password,
+                        u.trade_password,
+                        u.modifier,
+                        u.email,
+                        u.mobile,
+                        u.creator,
+                        u.name,
+                        u.enabled,
+                        null as rid,
+                        null as r_create_time,
+                        null as r_update_time,
+                        null as r_remark,
+                        null as r_name,
+                        null as r_code,
+                        null as r_description,
+                        null as r_sort,
+                        null as r_status,
+                        null as r_creator,
+                        null as r_modifier,
+                        m.id          as mid,
+                        m.en_name     as eName,
+                        m.cn_name     as cName,
+                        m.url         as url
+        from sys_user u,
+             sys_menu m,
+             sys_user_menu um
+        where um.menu_id = m.id
+          and um.user_id = u.id
+          and u.username = #{userName}
+    </select>
+
+    <select id="getSysUserByUserName" resultMap="BaseResultMap" parameterType="String">
+        select
+        id,institution_id,create_time,update_time,type,remark,username,password,trade_password,modifier,email,mobile,creator,name,enabled
+        from sys_user
+        where username = #{userName};
+    </select>
+
+    <select id="pageGetSysUser" resultMap="SysUserSecMap" resultType="com.payment.permission.dto.SysUserSecDto">
+        select DISTINCT s.id as id,s.update_time as update_time ,s.create_time as create_time, s.institution_id as
+        institution_id,i.institution_code as institution_code,
+        s.username,s.creator as creator,s.modifier as modifier,
+        s.name ,s.mobile,s.email,s.enabled,sr.role_name as roleName
+        from sys_user s LEFT JOIN institution i on i.id = s.institution_id
+        LEFT JOIN sys_user_role sur on sur.user_id = s.id
+        LEFT JOIN sys_role sr on sr.id = sur.role_id
+        <where>
+            <if test="institutionCode!=null and institutionCode != ''">
+                and i.institution_code=#{institutionCode}
+            </if>
+            <if test="institutionCode == null">
+                and s.institution_id is null
+            </if>
+            <if test="mobile!=null and mobile != ''">
+                and s.mobile=#{mobile}
+            </if>
+            <if test="email!=null and email != ''">
+                and s.email=#{email}
+            </if>
+            <if test="type!=null">
+                and s.type=#{type}
+            </if>
+            <if test="username!=null and username != ''">
+                and s.username LIKE CONCAT(CONCAT('%', #{username}), '%')
+            </if>
+            <if test="name!=null and name != ''">
+                and s.name LIKE CONCAT(CONCAT('%', #{name}), '%')
+            </if>
+            <if test="enabled!=null">
+                and s.enabled=#{enabled}
+            </if>
+            <if test="roleId!=null and roleId != ''">
+                and sur.role_id=#{roleId}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

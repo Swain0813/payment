@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.trade.dao.InstitutionMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.Institution">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="institution_code" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="agency_code" property="agencyCode" jdbcType="VARCHAR"/>
+        <result column="cn_name" property="cnName" jdbcType="VARCHAR"/>
+        <result column="en_name" property="enName" jdbcType="VARCHAR"/>
+        <result column="institution_type" property="institutionType" jdbcType="INTEGER"/>
+        <result column="country_type" property="countryType" jdbcType="INTEGER"/>
+        <result column="settle_currency" property="settleCurrency" jdbcType="VARCHAR"/>
+        <result column="country" property="country" jdbcType="VARCHAR"/>
+        <result column="country_code" property="countryCode" jdbcType="VARCHAR"/>
+        <result column="float_rate" property="floatRate" jdbcType="DECIMAL"/>
+        <result column="legal_passport_code" property="legalPassportCode" jdbcType="VARCHAR"/>
+        <result column="legal_passport_img" property="legalPassportImg" jdbcType="VARCHAR"/>
+        <result column="legal_passport_validity" property="legalPassportValidity" jdbcType="VARCHAR"/>
+        <result column="institution_contract" property="institutionContract" jdbcType="VARCHAR"/>
+        <result column="institution_adress" property="institutionAdress" jdbcType="VARCHAR"/>
+        <result column="institution_phone" property="institutionPhone" jdbcType="VARCHAR"/>
+        <result column="institution_web_url" property="institutionWebUrl" jdbcType="VARCHAR"/>
+        <result column="institution_email" property="institutionEmail" jdbcType="VARCHAR"/>
+        <result column="contact_address" property="contactAddress" jdbcType="VARCHAR"/>
+        <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR"/>
+        <result column="contact_people" property="contactPeople" jdbcType="VARCHAR"/>
+        <result column="company_articles" property="companyArticles" jdbcType="VARCHAR"/>
+        <result column="sale_contact_people" property="saleContactPeople" jdbcType="VARCHAR"/>
+        <result column="sale_contact_email" property="saleContactEmail" jdbcType="VARCHAR"/>
+        <result column="audit_status" property="auditStatus" jdbcType="TINYINT"/>
+        <result column="connect_limit" property="connectLimit" jdbcType="BIT"/>
+        <result column="institution_postal_code" property="institutionPostalCode" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="InstitutionVOMap" type="com.payment.trade.vo.InstitutionVO">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="institution_code" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="cn_name" property="cnName" jdbcType="VARCHAR"/>
+        <result column="en_name" property="enName" jdbcType="VARCHAR"/>
+        <result column="institution_type" property="institutionType" jdbcType="INTEGER"/>
+        <result column="country_type" property="countryType" jdbcType="INTEGER"/>
+        <result column="settle_currency" property="settleCurrency" jdbcType="VARCHAR"/>
+        <result column="country" property="country" jdbcType="VARCHAR"/>
+        <result column="country_code" property="countryCode" jdbcType="VARCHAR"/>
+        <result column="float_rate" property="floatRate" jdbcType="DECIMAL"/>
+        <result column="legal_passport_code" property="legalPassportCode" jdbcType="VARCHAR"/>
+        <result column="legal_passport_img" property="legalPassportImg" jdbcType="VARCHAR"/>
+        <result column="legal_passport_validity" property="legalPassportValidity" jdbcType="VARCHAR"/>
+        <result column="institution_contract" property="institutionContract" jdbcType="VARCHAR"/>
+        <result column="institution_adress" property="institutionAdress" jdbcType="VARCHAR"/>
+        <result column="institution_phone" property="institutionPhone" jdbcType="VARCHAR"/>
+        <result column="institution_email" property="institutionEmail" jdbcType="VARCHAR"/>
+        <result column="institution_web_url" property="institutionWebUrl" jdbcType="VARCHAR"/>
+        <result column="contact_address" property="contactAddress" jdbcType="VARCHAR"/>
+        <result column="contact_phone" property="contactPhone" jdbcType="VARCHAR"/>
+        <result column="contact_people" property="contactPeople" jdbcType="VARCHAR"/>
+        <result column="company_articles" property="companyArticles" jdbcType="VARCHAR"/>
+        <result column="sale_contact_people" property="saleContactPeople" jdbcType="VARCHAR"/>
+        <result column="sale_contact_email" property="saleContactEmail" jdbcType="VARCHAR"/>
+        <result column="audit_status" property="auditStatus" jdbcType="TINYINT"/>
+        <result column="connect_limit" property="connectLimit" jdbcType="BIT"/>
+        <result column="agency_code" property="agencyCode" jdbcType="VARCHAR"/>
+        <collection javaType="list" property="productList" resultMap="ProductVOMap"/>
+    </resultMap>
+
+    <resultMap id="InstitutionRelevantVOMap" type="com.payment.trade.vo.InstitutionRelevantVO">
+        <id column="institutionId" property="institutionId" jdbcType="VARCHAR"/>
+        <result column="institutionName" property="institutionName" jdbcType="VARCHAR"/>
+        <collection javaType="list" property="productRelevantVOS" resultMap="ProductRelevantVOMap"/>
+    </resultMap>
+    <resultMap id="ProductRelevantVOMap" type="com.payment.trade.vo.ProductRelevantVO">
+        <id column="productId" property="productId" jdbcType="VARCHAR"/>
+        <result column="payType" property="payType" jdbcType="VARCHAR"/>
+        <result column="tradeDirection" property="tradeDirection" jdbcType="TINYINT"/>
+        <result column="productCurrency" property="productCurrency" jdbcType="VARCHAR"/>
+        <result column="productCode" property="productCode" jdbcType="VARCHAR"/>
+        <collection javaType="list" property="channelRelevantVOS" resultMap="ChannelRelevantVOMap"/>
+    </resultMap>
+
+    <resultMap id="ChannelRelevantVOMap" type="com.payment.trade.vo.ChannelRelevantVO">
+        <id column="channelId" property="channelId" jdbcType="VARCHAR"/>
+        <result column="channelName" property="channelName" jdbcType="VARCHAR"/>
+        <result column="channelCurrency" property="channelCurrency" jdbcType="VARCHAR"/>
+        <result column="sort" property="sort" jdbcType="VARCHAR"/>
+        <result column="channelEnabled" property="channelEnabled" jdbcType="BIT"/>
+        <result column="channelEnName" property="channelEnName" jdbcType="VARCHAR"/>
+        <collection javaType="list" property="bankReleVantVOList" resultMap="BankReleVantVOMap"/>
+    </resultMap>
+
+    <resultMap id="BankReleVantVOMap" type="com.payment.trade.vo.BankReleVantVO">
+        <id column="bankID" property="bankID" jdbcType="VARCHAR"/>
+        <result column="bankName" property="bankName" jdbcType="VARCHAR"/>
+        <result column="bankCountry" property="bankCountry" jdbcType="VARCHAR"/>
+        <result column="bankCurrency" property="bankCurrency" jdbcType="VARCHAR"/>
+        <result column="bankIssuerId" property="bankIssuerId" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <resultMap id="ProductVOMap" type="com.payment.trade.vo.ProductVO">
+        <id column="product_id" property="productId" jdbcType="VARCHAR"/>
+        <result column="product_code" property="productCode" jdbcType="INTEGER"/>
+        <result column="pay_type" property="payType" jdbcType="TINYINT"/>
+        <result column="product_currency" property="productCurrency" jdbcType="VARCHAR"/>
+        <result column="product_currency_icon" property="productCurrencyIcon" jdbcType="VARCHAR"/>
+        <result column="rate" property="rate" jdbcType="DECIMAL"/>
+        <result column="ip_rate_type" property="rateType" jdbcType="VARCHAR"/>
+        <result column="ip_float_rate" property="ipFloatRate" jdbcType="DECIMAL"/>
+        <result column="ip_add_value" property="ipAddValue" jdbcType="DECIMAL"/>
+        <result column="ip_fee_payer" property="feePayer" jdbcType="TINYINT"/>
+        <result column="audit_limit_status" property="auditLimitStatus" jdbcType="TINYINT"/>
+        <result column="ip_settle_cycle" property="settleCycle" jdbcType="VARCHAR"/>
+        <result column="limit_amount" property="limitAmount" jdbcType="DECIMAL"/>
+        <result column="daily_total_amount" property="dailyTotalAmount" jdbcType="DECIMAL"/>
+        <result column="daily_trading_count" property="dailyTradingCount" jdbcType="INTEGER"/>
+        <result column="product_img" property="productImg" jdbcType="VARCHAR"/>
+        <collection javaType="list" property="channelList" resultMap="ChannelVOMap"/>
+    </resultMap>
+
+
+    <resultMap id="ChannelVOMap" type="com.payment.trade.vo.ChannelVO">
+        <id column="channel_id" property="channelId" jdbcType="VARCHAR"/>
+        <id column="product_id" property="channelProductId" jdbcType="VARCHAR"/>
+        <result column="channel_currency" property="channelCurrency" jdbcType="VARCHAR"/>
+        <result column="channel_pay_type" property="channelPayType" jdbcType="VARCHAR"/>
+        <result column="channel_pay_type_name" property="channelPayTypeName" jdbcType="VARCHAR"/>
+        <result column="channel_currency_icon" property="channelCurrencyIcon" jdbcType="VARCHAR"/>
+        <result column="channel_code" property="channelCode" jdbcType="VARCHAR"/>
+        <result column="channel_img" property="channelImg" jdbcType="VARCHAR"/>
+        <result column="channel_url" property="channelUrl" jdbcType="VARCHAR"/>
+        <result column="channel_cn_name" property="channelCnName" jdbcType="VARCHAR"/>
+        <result column="ch_settle_cycle" property="settleCycle" jdbcType="VARCHAR"/>
+        <result column="ch_country" property="country" jdbcType="VARCHAR"/>
+        <result column="channel_fee" property="channelFee" jdbcType="DECIMAL"/>
+        <result column="channel_rate" property="channelRate" jdbcType="DECIMAL"/>
+        <result column="issuer_id" property="issuerId" jdbcType="VARCHAR"/>
+        <result column="channel_fee_type" property="channelFeeType" jdbcType="TINYINT"/>
+        <result column="channel_min_rate" property="channelMinRate" jdbcType="DECIMAL"/>
+        <result column="channel_max_rate" property="channelMaxRate" jdbcType="DECIMAL"/>
+        <result column="channel_gateway_rate" property="channelGatewayRate" jdbcType="DECIMAL"/>
+        <result column="channel_gateway_fee" property="channelGatewayFee" jdbcType="DECIMAL"/>
+        <result column="channel_gateway_fee_type" property="channelGatewayFeeType" jdbcType="TINYINT"/>
+        <result column="channel_gateway_charge" property="channelGatewayCharge" jdbcType="TINYINT"/>
+        <result column="channel_gateway_status" property="channelGatewayStatus" jdbcType="TINYINT"/>
+        <result column="channel_gateway_min_rate" property="channelGatewayMinRate" jdbcType="DECIMAL"/>
+        <result column="channel_gateway_max_rate" property="channelGatewayMaxRate" jdbcType="DECIMAL"/>
+        <result column="channel_currency_icon" property="channelCurrencyIcon" jdbcType="VARCHAR"/>
+        <result column="default_value" property="defaultValue" jdbcType="VARCHAR"/>
+        <result column="channel_currency_icon" property="channelCurrencyIcon" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="OfflineProductVOMap" type="com.payment.trade.vo.OfflineProductVO">
+        <result column="productCode" property="productCode" jdbcType="INTEGER"/>
+        <result column="dealType" property="dealType" jdbcType="VARCHAR"/>
+        <result column="payTypeImgOne" property="payTypeImgOne" jdbcType="VARCHAR"/>
+        <result column="payTypeImgTwo" property="payTypeImgTwo" jdbcType="VARCHAR"/>
+        <result column="payTypeName" property="payTypeName" jdbcType="VARCHAR"/>
+        <result column="flag" property="flag" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <resultMap id="SysUserMap" type="com.payment.common.entity.SysUser">
+        <id column="s_id" property="id" jdbcType="VARCHAR"/>
+        <result column="s_institution_id" property="institutionId" jdbcType="VARCHAR"/>
+        <result column="s_username" property="username" jdbcType="VARCHAR"/>
+        <result column="s_password" property="password" jdbcType="VARCHAR"/>
+        <result column="s_name" property="name" jdbcType="VARCHAR"/>
+        <result column="s_mobile" property="mobile" jdbcType="VARCHAR"/>
+        <result column="s_email" property="email" jdbcType="VARCHAR"/>
+        <result column="s_create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="s_update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="s_creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="s_modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="s_remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="s_enabled" property="enabled" jdbcType="BIT"/>
+    </resultMap>
+
+    <resultMap id="DirectConnectionVOMap" type="com.payment.common.vo.DirectConnectionVO">
+        <id column="ins_pro_id" property="insProId" jdbcType="VARCHAR"/>
+        <result column="channel_code" property="channelCode" jdbcType="VARCHAR"/>
+        <result column="bank_name" property="bankName" jdbcType="VARCHAR"/>
+        <result column="product_code" property="productCode" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <sql id="Base_Column_List">
+        id, create_time, update_time, creator, modifier, remark, enabled,
+        institution_code, cn_name, en_name, institution_type, settle_currency, country,country_type, country_code,
+        float_rate, legal_passport_code, legal_passport_img, institution_adress,
+        institution_phone,legal_passport_validity,institution_contract,
+        institution_email, contact_address, contact_phone, contact_people,sale_contact_people,
+        audit_status,sale_contact_email,connect_limit,institution_web_url,connect_limit,institution_postal_code,agency_code,agency_name
+    </sql>
+
+    <sql id="Second_Column_List">
+        i.id, i.create_time, i.update_time, i.creator, i.modifier, i.remark, i.enabled,
+        i.institution_code, i.cn_name, i.en_name, i.institution_type, i.settle_currency, i.country,i.country_type,
+        i.country_code,
+        i.float_rate, i.legal_passport_code, i.legal_passport_img, i.institution_adress,
+        i.institution_phone,i.legal_passport_validity,i.institution_contract,
+        i.institution_email, i.contact_address, i.contact_phone, i.contact_people,i.sale_contact_people,
+        i.audit_status,i.sale_contact_email,i.connect_limit,i.institution_web_url,i.agency_code,
+    </sql>
+
+    <sql id="third_Column_List">
+        ins_pro_id,
+        bank_name,
+        product_code,
+        channel_code
+    </sql>
+
+    <select id="selectByInstitutionCode" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM institution WHERE institution_code = #{institutionCode}
+    </select>
+
+    <select id="selectRelevantInfo" resultMap="InstitutionVOMap">
+        select
+        <include refid="Second_Column_List"/>
+        ip.product_id,
+        ip.rate,
+        ip.rate_type as ip_rate_type,
+        ip.float_rate as ip_float_rate,
+        ip.add_value as ip_add_value,
+        ip.fee_payer as ip_fee_payer,
+        p.currency as product_currency,
+        p.pay_type,
+        ip.limit_amount,
+        ip.daily_total_amount,
+        ip.daily_trading_count,
+        ip.audit_limit_status,
+        ip.settle_cycle as ip_settle_cycle,
+        p.product_img,
+        p.product_code,
+        ic.channel_id,
+        ch.currency as channel_currency,
+        ch.channel_code,
+        ch.channel_url,
+        ch.channel_cn_name,
+        ch.channel_fee,
+        ch.channel_rate,
+        d.icon as channel_currency_icon,
+        ch.channel_fee_type,
+        ch.channel_min_rate,
+        ch.channel_max_rate,
+        ch.channel_gateway_rate,
+        ch.channel_gateway_fee,
+        ch.channel_gateway_fee_type,
+        ch.channel_gateway_charge,
+        ch.channel_gateway_status,
+        ch.channel_gateway_min_rate,
+        ch.channel_gateway_max_rate,
+        b.bank_img as channel_img,
+        b.issuer_id as issuer_id,
+        ch.country as ch_country,
+        ch.pay_type as channel_pay_type,
+        dd.name as channel_pay_type_name,
+        d.default_value
+        from institution i ,institution_product ip,product p,channel ch ,institution_channel ic ,channel_bank cb,bank
+        b,dictionary
+        d,dictionary dd
+        where i.id = ip.institution_id and ip.product_id = p.id and ip.id = ic.ins_pro_id and ic.channel_id = cb.id
+        and cb.channel_id = ch.id and cb.bank_id = b.id
+        and ch.pay_type=dd.code
+        and ch.currency = d.code and p.enabled = 1 and ch.enabled = 1 and ic.enabled = 1
+        <if test="payMethod !=null and payMethod != ''">
+            and p.pay_type = #{payMethod}
+        </if>
+        <if test="institutionCode !=null and institutionCode != ''">
+            and i.institution_code = #{institutionCode}
+        </if>
+        <if test="tradeDirection !=null and tradeDirection != ''">
+            and p.trade_direction = #{tradeDirection}
+        </if>
+        <if test="language !=null and language != ''">
+            and dd.language = #{language}
+        </if>
+    </select>
+
+    <select id="selectProductInfo" resultMap="OfflineProductVOMap">
+        select p.product_code as productCode,
+        p.currency as currency,
+        pm.icon as payTypeImgOne,
+        d.icon as payTypeImgTwo,
+        d.name as payTypeName,
+        substring(d.name, -3) as flag,
+        pm.deal_type as dealType
+        from institution i,
+        institution_product ip,
+        product p,
+        dictionary d,
+        dictionary dd,
+        payment_mode pm
+        where i.id = ip.institution_id
+        and ip.product_id = p.id
+        and p.pay_type = d.code
+        and d.language = #{language}
+        and p.currency = dd.code
+        and p.pay_type = pm.pay_type
+        and i.enabled = 1
+        and ip.enabled = 1
+        and i.institution_code = #{institutionCode}
+        and p.trade_direction = #{tradeDirection}
+        <if test="dealType !=null and dealType != ''">
+            and pm.deal_type = #{dealType}
+        </if>
+    </select>
+
+    <select id="selectRelevantInfoByInstitutionCode" resultMap="InstitutionVOMap">
+        select
+        <include refid="Second_Column_List"/>
+        ip.product_id,
+        ip.rate,
+        ip.float_rate as ip_float_rate,
+        ip.add_value as ip_add_value,
+        p.currency as product_currency,
+        p.pay_type,
+        ip.limit_amount,
+        ip.daily_total_amount,
+        ip.daily_trading_count,
+        ip.audit_limit_status,
+        ip.settle_cycle as ip_settle_cycle,
+        p.product_img,
+        p.product_code,
+        pc.channel_id,
+        ch.currency as channel_currency,
+        ch.channel_code,
+        ch.channel_url,
+        ch.channel_cn_name,
+        ch.channel_fee,
+        ch.channel_rate,
+        d.icon as channel_currency_icon,
+        ch.channel_fee_type,
+        ch.channel_min_rate,
+        ch.channel_max_rate,
+        ch.channel_gateway_rate,
+        ch.channel_gateway_fee,
+        ch.channel_gateway_fee_type,
+        ch.channel_gateway_charge,
+        ch.channel_gateway_status,
+        ch.channel_gateway_min_rate,
+        ch.channel_gateway_max_rate,
+        ch.channel_img,
+        ch.issuer_id,
+        ch.country as ch_country,
+        ch.pay_type as channel_pay_type,
+        dd.name as channel_pay_type_name,
+        d.default_value
+        from institution i ,institution_product ip,product p, product_channel pc,channel ch ,dictionary d,dictionary dd
+        where i.id = ip.institution_id and ip.product_id = p.id and p.id = pc.product_id and pc.channel_id = ch.id
+        and ch.pay_type=dd.code and ch.currency = d.code and i.enabled =1 and p.enabled = 1 and ch.enabled = 1
+        and i.institution_code =#{institutionCode}
+        and d.language=#{language}
+        and dd.language =#{language}
+    </select>
+
+    <select id="getRelevantByInstitutionCode" resultMap="InstitutionRelevantVOMap">
+        select i.id               as institutionId,
+               i.cn_name          as institutionName,
+               p.id               as productId,
+               d.name             as payType,
+               p.currency         as productCurrency,
+               p.product_code     as productCode,
+               p.trade_direction  as tradeDirection,
+               ch.id              as channelId,
+               ch.channel_cn_name as channelName,
+               ch.currency        as channelCurrency,
+               ch.sort            as sort,
+               ch.channel_en_name as channelEnName,
+               b.id               as bankID,
+               b.bank_name        as bankName,
+               b.bank_country     as bankCountry,
+               b.bank_currency    as bankCurrency,
+               b.issuer_id        as bankIssuerId
+        from institution i,
+             institution_product ip,
+             product p,
+             channel ch,
+             institution_channel ic,
+             channel_bank cb,
+             bank b,
+             dictionary d
+        where i.id = ip.institution_id
+          and ip.product_id = p.id
+          and ip.id = ic.ins_pro_id
+          and ic.channel_id = cb.id
+          and cb.channel_id = ch.id
+          and cb.bank_id = b.id
+          and p.pay_type = d.code
+          and d.language = #{language}
+          and i.institution_code = #{institutionCode}
+    </select>
+
+    <select id="getRelevantByInstitutionCodeSy" resultMap="InstitutionRelevantVOMap">
+        select i.id               as institutionId,
+               i.cn_name          as institutionName,
+               p.id               as productId,
+               d.name             as payType,
+               p.currency         as productCurrency,
+               p.product_code     as productCode,
+               p.trade_direction  as tradeDirection,
+               ch.id              as channelId,
+               ch.channel_cn_name as channelName,
+               ch.currency        as channelCurrency,
+               ch.sort            as sort,
+               ch.channel_en_name as channelEnName,
+               b.id               as bankID,
+               b.bank_name        as bankName,
+               b.bank_country     as bankCountry,
+               b.bank_currency    as bankCurrency,
+               b.issuer_id        as bankIssuerId
+        from institution i,
+             institution_product ip,
+             product p,
+             channel ch,
+             institution_channel ic,
+             channel_bank cb,
+             bank b,
+             dictionary d
+        where i.id = ip.institution_id
+          and ip.product_id = p.id
+          and ip.id = ic.ins_pro_id
+          and ic.channel_id = cb.id
+          and cb.channel_id = ch.id
+          and cb.bank_id = b.id
+          and i.enabled = 1
+          and p.enabled = 1
+          and ip.enabled = 1
+          and ch.enabled = 1
+          and ic.enabled = 1
+          and b.enabled = 1
+          and ch.enabled = 1
+          and p.pay_type = d.code
+          and d.language = #{language}
+          and i.institution_code = #{institutionCode}
+    </select>
+
+    <select id="getNoRelevantByInstitutionCode" resultMap="InstitutionRelevantVOMap">
+        SELECT i.id               AS institutionId,
+               i.cn_name          AS institutionName,
+               p.id               AS productId,
+               d.NAME             AS payType,
+               p.product_code     AS productCode,
+               p.currency         AS productCurrency,
+               p.trade_direction  as tradeDirection,
+               ch.id              AS channelId,
+               ch.channel_cn_name AS channelName,
+               ch.currency        as channelCurrency,
+               ch.sort            as sort,
+               ch.enabled         AS channelEnabled,
+               ch.channel_en_name as channelEnName,
+               b.id               as bankID,
+               b.bank_name        as bankName,
+               b.bank_country     as bankCountry,
+               b.bank_currency    as bankCurrency,
+               b.issuer_id        as bankIssuerId
+        FROM institution i
+                 LEFT JOIN institution_product ip ON i.id = ip.institution_id
+                 LEFT JOIN product p ON p.id = ip.product_id
+                 LEFT JOIN product_channel pc ON pc.product_id = p.id
+                 LEFT JOIN channel ch ON pc.channel_id = ch.id
+                 left join channel_bank cb on ch.id = cb.channel_id
+                 left join bank b on cb.bank_id = b.id
+                 LEFT JOIN dictionary d ON p.pay_type = d.`code` AND d.`language` = #{language}
+        WHERE i.enabled = 1
+          AND i.institution_code = #{institutionCode}
+    </select>
+
+    <select id="selectByIssuerIdAndInstitutionId" resultMap="DirectConnectionVOMap">
+        SELECT ic.ins_pro_id,
+               b.bank_name,
+               p.product_code AS product_code,
+               c.channel_code
+        FROM institution_product ip
+                 LEFT JOIN product p ON p.id = ip.product_id
+                 LEFT JOIN institution_channel ic ON ip.id = ic.ins_pro_id
+                 LEFT JOIN channel_bank cb ON ic.channel_id = cb.id
+                 LEFT JOIN bank b ON cb.bank_id = b.id
+                 LEFT JOIN channel c ON c.id = cb.channel_id
+        WHERE ip.enabled = 1
+          AND ic.enabled = 1
+          AND cb.enabled = 1
+          AND b.enabled = 1
+          AND c.enabled = 1
+          AND p.enabled = 1
+          AND p.trade_direction = 1
+          and c.currency = p.currency
+          AND ip.institution_id = #{institutionCode}
+          AND b.issuer_id = #{issuerId}
+        ORDER BY ic.sort
+    </select>
+</mapper>

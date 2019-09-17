@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.institution.dao.NoticeMapper" >
+  <resultMap id="BaseResultMap" type="com.payment.institution.entity.Notice" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="language" property="language" jdbcType="VARCHAR" />
+    <result column="rank" property="rank" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="start_date" property="startDate" jdbcType="TIMESTAMP" />
+    <result column="end_date" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="enabled" property="enabled" jdbcType="BIT" />
+  </resultMap>
+
+  <resultMap id="pageMap" type="com.payment.common.vo.NoticeVO" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="language" property="language" jdbcType="VARCHAR" />
+    <result column="rank" property="rank" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="start_date" property="startDate" jdbcType="TIMESTAMP" />
+    <result column="end_date" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="enabled" property="enabled" jdbcType="BIT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+        a.id, a.category, a.title, a.context, a.language, a.rank, a.create_time, a.start_date, a.end_date,a.update_time,a.creator,a.modifier,a.remark,a.enabled,
+  </sql>
+
+  <select id="pageNotice" resultMap="pageMap">
+    select
+    <include refid="Base_Column_List" />
+    b.name
+    from notice a LEFT JOIN dictionary b ON a.category=b.`code` and b.language=#{language}
+    <where>
+      a.category = b.code
+      <if test="id!=null and id!= ''">
+        and a.id=#{id}
+      </if>
+      <if test="category != null and category != ''">
+        and a.category=#{category}
+      </if>
+      <if test="title != null and title != ''">
+        and a.title LIKE CONCAT(CONCAT('%', #{title}), '%')
+      </if>
+      <if test="enabled != null">
+        and a.enabled=#{enabled}
+      </if>
+      <if test="language != null and language != ''">
+        and a.language=#{language}
+      </if>
+      <if test="startDate != null and startDate != ''">
+        <![CDATA[ and a.create_time >= CONCAT(#{startDate},' 00:00:00')]]>
+      </if>
+      <if test="endDate != null and endDate != ''">
+        <![CDATA[ AND a.create_time <= CONCAT(#{endDate},' 23:59:59')]]>
+      </if>
+    </where>
+  </select>
+
+  <select id="pageNoticeByLanguageAndCategory" resultMap="pageMap">
+    select
+    <include refid="Base_Column_List" />
+    b.name
+    from notice a,dictionary b
+    <where>
+      a.category = b.code and b.language=#{language}
+      <if test="id!=null and id!= ''">
+        and a.id=#{id}
+      </if>
+      <if test="category != null and category != ''">
+        and a.category=#{category}
+      </if>
+      <if test="title != null and title != ''">
+        and a.title LIKE CONCAT(CONCAT('%', #{title}), '%')
+      </if>
+      <if test="language != null and language != ''">
+        and a.language=#{language}
+      </if>
+      and a.enabled=true
+    </where>
+  </select>
+
+</mapper>

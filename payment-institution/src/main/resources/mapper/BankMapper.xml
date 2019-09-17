@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.institution.dao.BankMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.Bank">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="bank_code" property="bankCode" jdbcType="VARCHAR"/>
+        <result column="bank_name" property="bankName" jdbcType="VARCHAR"/>
+        <result column="bank_country" property="bankCountry" jdbcType="VARCHAR"/>
+        <result column="bank_currency" property="bankCurrency" jdbcType="VARCHAR"/>
+        <result column="issuer_id" property="issuerId" jdbcType="VARCHAR"/>
+        <result column="bank_img" property="bankImg" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, bank_code, bank_name, bank_country, bank_currency, issuer_id, bank_img, create_time,
+    update_time, creator, modifier, remark, enabled
+    </sql>
+
+    <select id="pageFindBank" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"></include>
+        from bank
+        <where>
+            <if test="bankName!=null and bankName != ''">
+                and bank_name LIKE CONCAT(CONCAT('%', #{bankName}), '%')
+            </if>
+            <if test="id!=null and id != ''">
+                and id=#{id }
+            </if>
+            <if test="issuerId!=null and issuerId != ''">
+                and issuer_id=#{issuerId}
+            </if>
+            <if test="bankCurrency!=null and bankCurrency != ''">
+                and bank_currency=#{bankCurrency}
+            </if>
+            <if test="bankCountry!=null and bankCountry != ''">
+                and bank_country=#{bankCountry}
+            </if>
+            <if test="enabled!=null and enabled != ''">
+                and enabled=#{enabled}
+            </if>
+            <if test="bankCode!=null and bankCode != ''">
+                and bank_code=#{bankCode}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByBankNameAndCurrency" resultType="java.lang.Integer">
+        select count(*)
+        from bank
+        where bank_name = #{bankName}
+          and bank_currency = #{bankCurrency}
+          and enabled = 1;
+    </select>
+
+    <select id="exportBank" resultMap="ExportBankVOMap">
+        select
+        bank_code as bankCode,
+        bank_name as bankName,
+        bank_country as bankCountry,
+        bank_currency as bankCurrency,
+        issuer_id as issuerId,
+        create_time as createTime,
+        creator as creator
+        from bank
+        <where>
+            <if test="bankName!=null and bankName != ''">
+                and bank_name LIKE CONCAT(CONCAT('%', #{bankName}), '%')
+            </if>
+            <if test="id!=null and id != ''">
+                and id=#{id}
+            </if>
+            <if test="issuerId!=null and issuerId != ''">
+                and issuer_id=#{issuerId}
+            </if>
+            <if test="bankCurrency!=null and bankCurrency != ''">
+                and bank_currency=#{bankCurrency}
+            </if>
+            <if test="bankCountry!=null and bankCountry != ''">
+                and bank_country=#{bankCountry}
+            </if>
+            <if test="enabled!=null">
+                and enabled=#{enabled}
+            </if>
+            <if test="bankCode!=null and bankCode != ''">
+                and bank_code=#{bankCode}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <resultMap id="ExportBankVOMap" type="com.payment.common.vo.ExportBankVO">
+        <result column="bankCode" property="bankCode" jdbcType="VARCHAR"/>
+        <result column="bankName" property="bankName" jdbcType="VARCHAR"/>
+        <result column="bankCountry" property="bankCountry" jdbcType="VARCHAR"/>
+        <result column="bankCurrency" property="bankCurrency" jdbcType="VARCHAR"/>
+        <result column="issuerId" property="issuerId" jdbcType="VARCHAR"/>
+        <result column="createTime" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+    </resultMap>
+</mapper>

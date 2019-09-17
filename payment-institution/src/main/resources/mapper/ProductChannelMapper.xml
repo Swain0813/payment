@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.institution.dao.ProductChannelMapper" >
+  <resultMap id="BaseResultMap" type="com.payment.institution.entity.ProductChannel" >
+    <result column="id" property="id" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="channel_id" property="channelId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="ProChannelVO" type="com.payment.common.vo.ProChannelVO" >
+    <result column="insProductId" property="insProductId" jdbcType="VARCHAR" />
+    <result column="productId" property="productId" jdbcType="VARCHAR" />
+    <result column="productCode" property="productCode" jdbcType="VARCHAR" />
+    <result column="payType" property="payType" jdbcType="VARCHAR" />
+    <result column="currency" property="currency" jdbcType="VARCHAR" />
+    <collection javaType="list" property="channelVOS" resultMap="ChannelVO"/>
+  </resultMap>
+  <resultMap id="ChannelVO" type="com.payment.common.vo.ChannelVO" >
+    <result column="channelId" property="channelId" jdbcType="VARCHAR" />
+    <result column="channelCode" property="channelCode" jdbcType="VARCHAR" />
+    <result column="channelEnName" property="channelEnName" jdbcType="VARCHAR" />
+    <result column="channelCnName" property="channelCnName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <select id="getProChannelByInstitutionCode" resultMap="ProChannelVO" parameterType="String">
+     select ip.id as insProductId,p.id as productId ,p.product_code as productCode, concat(d.name,'_',p.currency) as payType,p.currency as currency,
+     ch.id as channelId, ch.channel_code as channelCode, ch.channel_en_name as channelEnName, ch.channel_cn_name as channelCnName
+     from institution i,institution_product ip,product p,product_channel pc,channel ch,dictionary d
+     where i.id = ip.institution_id and ip.product_id = p.id
+     and p.id = pc.product_id and pc.channel_id = ch.id
+     and i.institution_code = #{institutionCode}
+     and p.pay_type = d.code and d.language = #{language}
+  </select>
+
+</mapper>

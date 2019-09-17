@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.institution.dao.InstitutionProductHistoryMapper" >
+  <resultMap id="BaseResultMap" type="com.payment.institution.entity.InstitutionProductHistory" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="ins_pro_id" property="insProId" jdbcType="VARCHAR" />
+    <result column="institution_id" property="institutionId" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="rate_type" property="rateType" jdbcType="VARCHAR" />
+    <result column="min_tate" property="minTate" jdbcType="DECIMAL" />
+    <result column="max_tate" property="maxTate" jdbcType="DECIMAL" />
+      <result column="divided_mode" property="dividedMode" jdbcType="TINYINT"/>
+      <result column="divided_ratio" property="dividedRatio" jdbcType="DECIMAL"/>
+    <result column="rate" property="rate" jdbcType="DECIMAL" />
+    <result column="float_rate" property="maxTate" jdbcType="DECIMAL"/>
+    <result column="auditLimitRemark" property="auditLimitRemark" jdbcType="VARCHAR"/>
+    <result column="auditInfoRemark" property="auditInfoRemark" jdbcType="VARCHAR"/>
+    <result column="add_value" property="addValue" jdbcType="DECIMAL" />
+    <result column="limit_amount" property="limitAmount" jdbcType="DECIMAL" />
+    <result column="daily_trading_count" property="dailyTradingCount" jdbcType="INTEGER" />
+    <result column="daily_total_amount" property="dailyTotalAmount" jdbcType="DECIMAL" />
+    <result column="fee_payer" property="feePayer" jdbcType="TINYINT" />
+    <result column="audit_limit_status" property="auditLimitStatus" jdbcType="TINYINT" />
+    <result column="audit_info_status" property="auditInfoStatus" jdbcType="TINYINT" />
+    <result column="settle_cycle" property="settleCycle" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="refund_rate_type" property="refundRateType" jdbcType="VARCHAR"/>
+    <result column="refund_min_tate" property="refundMinTate" jdbcType="DECIMAL"/>
+    <result column="refund_max_tate" property="refundMaxTate" jdbcType="DECIMAL"/>
+    <result column="refund_rate" property="refundRate" jdbcType="DECIMAL"/>
+    <result column="refund_add_value" property="refundAddValue" jdbcType="DECIMAL"/>
+
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, ins_pro_id, institution_id, product_id, rate_type, min_tate, max_tate, rate,
+    add_value, limit_amount, daily_trading_count, daily_total_amount,audit_limit_remark,audit_info_remark,
+    fee_payer, audit_limit_status, audit_info_status, settle_cycle, create_time, update_time, float_rate,
+    creator, modifier, remark,refund_rate_type,refund_min_tate,refund_max_tate,refund_rate,refund_add_value,divided_mode,divided_ratio
+  </sql>
+
+</mapper>

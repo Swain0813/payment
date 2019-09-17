@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.trade.dao.OrderLogisticsMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.OrderLogistics">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="reference_no" property="referenceNo" jdbcType="VARCHAR"/>
+        <result column="institution_code" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="institution_name" property="institutionName" jdbcType="VARCHAR"/>
+        <result column="institution_order_id" property="institutionOrderId" jdbcType="VARCHAR"/>
+        <result column="product_description" property="productDescription" jdbcType="VARCHAR"/>
+        <result column="amount" property="amount" jdbcType="DECIMAL"/>
+        <result column="order_currency" property="orderCurrency" jdbcType="VARCHAR"/>
+        <result column="req_ip" property="reqIp" jdbcType="VARCHAR"/>
+        <result column="channel_callback_time" property="channelCallbackTime" jdbcType="TIMESTAMP"/>
+        <result column="issuer_id" property="issuerId" jdbcType="VARCHAR"/>
+        <result column="language" property="language" jdbcType="VARCHAR"/>
+        <result column="invoice_no" property="invoiceNo" jdbcType="VARCHAR"/>
+        <result column="provider_name" property="providerName" jdbcType="VARCHAR"/>
+        <result column="courier_code" property="courierCode" jdbcType="VARCHAR"/>
+        <result column="payer_address" property="payerAddress" jdbcType="VARCHAR"/>
+        <result column="payer_name" property="payerName" jdbcType="VARCHAR"/>
+        <result column="payer_email" property="payerEmail" jdbcType="VARCHAR"/>
+        <result column="delivery_status" property="deliveryStatus" jdbcType="TINYINT"/>
+        <result column="received_status" property="receivedStatus" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,reference_no,institution_code,institution_name, institution_order_id, product_description, invoice_no, provider_name,
+    payer_address, payer_name, payer_email, delivery_status, create_time, update_time, amount,order_currency,req_ip,channel_callback_time,
+    creator, modifier, remark,issuer_id,language,received_status,courier_code
+    </sql>
+
+    <select id="getOrderLogisticsInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_logistics
+        <where>
+            <if test="id != null and id != ''">
+                AND id = #{id}
+            </if>
+            <if test="referenceNo != null and referenceNo != ''">
+                AND reference_no = #{referenceNo}
+            </if>
+            <if test="institutionOrderId != null and institutionOrderId != ''">
+                AND institution_order_id = #{institutionOrderId}
+            </if>
+            <if test="institutionCode != null and institutionCode != ''">
+                AND institution_code = #{institutionCode}
+            </if>
+            <if test="institutionName != null and institutionName != ''">
+                AND institution_name LIKE CONCAT(CONCAT('%', #{institutionName}), '%')
+            </if>
+            <if test="invoiceNo != null and invoiceNo != ''">
+                AND invoice_no = #{invoiceNo}
+            </if>
+            <if test="deliveryStatus != null">
+                AND delivery_status = #{deliveryStatus}
+            </if>
+        </where>
+    </select>
+
+    <select id="getOrderLogisticsInfoById" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_logistics
+        <where>
+            <if test="id != null and id != ''">
+                AND id = #{id}
+            </if>
+            <if test="referenceNo != null and referenceNo != ''">
+                AND reference_no = #{referenceNo}
+            </if>
+            <if test="institutionOrderId != null and institutionOrderId != ''">
+                AND institution_order_id = #{institutionOrderId}
+            </if>
+            <if test="institutionCode != null and institutionCode != ''">
+                AND institution_code = #{institutionCode}
+            </if>
+            <if test="deliveryStatus != null">
+                AND delivery_status = #{deliveryStatus}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectByinstitutionOrderIdAndInstitutionCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_logistics
+        where institution_code = #{institutionCode}
+          and institution_order_id = #{institutionOrderId}
+          and delivery_status = 1;
+    </select>
+
+
+    <select id="getOrderLogisticsInfos" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_logistics
+        <where>
+            <if test="institutionId != null and institutionId != ''">
+                AND institution_code = #{institutionId}
+            </if>
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.trade.dao.BankIssueridMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.BankIssuerid">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="bank_name" property="bankName" jdbcType="VARCHAR"/>
+        <result column="issuer_id" property="issuerId" jdbcType="VARCHAR"/>
+        <result column="currency" property="currency" jdbcType="VARCHAR"/>
+        <result column="channel_code" property="channelCode" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, bank_name, issuer_id, currency,channel_code,enabled, create_time, update_time, creator, modifier,
+    remark
+    </sql>
+
+    <select id="selectBankAndIssuerId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from bank_issuerid
+        where
+        currency = #{bankCurrency}
+        and bank_name = #{bankName}
+        and channel_code = #{channelCode}
+        and enabled = 1;
+    </select>
+
+    <select id="selectByChannelCodeAndCurrency" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from bank_issuerid where channel_code = #{channelCode} and currency = #{currency} and enabled = 1;
+    </select>
+
+    <select id="selectByChannelCode" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from bank_issuerid
+        where channel_code = #{channelCode}
+        and enabled = 1;
+    </select>
+
+    <select id="selectByIssuerId" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from bank_issuerid where issuer_id = #{issuerId}
+    </select>
+
+
+</mapper>

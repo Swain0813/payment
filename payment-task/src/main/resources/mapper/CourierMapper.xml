@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.task.dao.CourierMapper" >
+  <resultMap id="BaseResultMap" type="com.payment.common.entity.Courier" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="courier_code" property="courierCode" jdbcType="VARCHAR" />
+    <result column="courier_en_name" property="courierEnName" jdbcType="VARCHAR" />
+    <result column="courier_cn_name" property="courierCnName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, courier_code, courier_en_name, courier_cn_name
+  </sql>
+
+
+</mapper>

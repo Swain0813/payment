@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.payment.permission.dao.HolidaysMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.vo.HolidaysVO">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="country" jdbcType="VARCHAR" property="country"/>
+        <result column="date" jdbcType="DATE" property="date"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="creator" jdbcType="VARCHAR" property="creator"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="modifier" jdbcType="VARCHAR" property="modifier"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+    </resultMap>
+
+    <sql id="commonSql">
+        id, country, date,name,create_time,update_time,modifier, creator,enabled
+    </sql>
+
+
+    <select id="findDuplicatesCount" resultType="java.lang.Integer">
+        select count(1)
+        from holidays
+        where country = #{country}
+          and name = #{name}
+          and date = #{date};
+    </select>
+
+</mapper>

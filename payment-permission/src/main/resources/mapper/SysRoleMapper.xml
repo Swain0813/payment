@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.permission.dao.SysRoleMapper">
+    <resultMap id="BaseResultMap" type="com.payment.permission.entity.SysRole">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="institution_id" property="institutionId" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+        <result column="role_code" property="roleCode" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="SecondResultMap" type="com.payment.common.vo.SysRoleVO">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+        <result column="role_code" property="roleCode" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="sort" property="sort" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="getCountByRoleName" resultType="Integer" parameterType="String">
+        select count(1)
+        from sys_role
+        where role_name = #{roleName} and institution_id = #{institutionId};
+    </select>
+
+    <select id="getAllRole" resultMap="SecondResultMap" parameterType="String">
+        select id, role_name, role_code, description
+        from sys_role
+        <where>
+            <if test="institutionId!=null and institutionId != ''">
+                 and ( institution_id =#{institutionId} or institution_id is null )
+            </if>
+            <if test="institutionId == null">
+                and institution_id is null
+            </if>
+            <if test="type!= null">
+                and type =#{type}
+            </if>
+        </where>
+        and enabled=true
+    </select>
+
+    <select id="getUserRole" resultType="String" parameterType="String">
+        select role_id
+        from sys_user_role
+        where user_id = #{id}
+    </select>
+
+    <select id="pageGetSysRole" resultMap="BaseResultMap" resultType="com.payment.permission.dto.SysRoleSecDto">
+        select id,create_time,update_time,remark,creator,modifier,role_name,role_code,description,enabled,sort
+        from sys_role
+        <where>
+            <if test="roleName!=null and roleName != ''">
+                and role_name LIKE CONCAT(CONCAT('%', #{roleName}), '%')
+            </if>
+            <if test="description!=null and description != ''">
+                and description LIKE CONCAT(CONCAT('%', #{description}), '%')
+            </if>
+            <if test="institutionId!=null and institutionId != ''">
+                and  ( institution_id =#{institutionId}  or institution_id is null )
+            </if>
+            <if test="type!=null">
+                and type =#{type}
+            </if>
+            <if test="institutionId == null">
+                and institution_id is null
+            </if>
+        </where>
+    </select>
+
+
+
+</mapper>

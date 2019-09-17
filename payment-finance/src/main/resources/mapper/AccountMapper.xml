@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.finance.dao.AccountMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.Account">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="institution_id" property="institutionId" jdbcType="VARCHAR"/>
+        <result column="institution_name" property="institutionName" jdbcType="VARCHAR"/>
+        <result column="account_code" property="accountCode" jdbcType="VARCHAR"/>
+        <result column="currency" property="currency" jdbcType="VARCHAR"/>
+        <result column="settle_balance" property="settleBalance" jdbcType="DECIMAL"/>
+        <result column="clear_balance" property="clearBalance" jdbcType="DECIMAL"/>
+        <result column="freeze_balance" property="freezeBalance" jdbcType="DECIMAL"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+    </resultMap>
+    <resultMap id="secondResultMap" type="com.payment.finance.entity.WithdrawalVO">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="institution_id" property="institutionId" jdbcType="VARCHAR"/>
+        <result column="institution_name" property="institutionName" jdbcType="VARCHAR"/>
+        <result column="account_code" property="accountCode" jdbcType="VARCHAR"/>
+        <result column="currency" property="currency" jdbcType="VARCHAR"/>
+        <result column="settle_balance" property="settleBalance" jdbcType="DECIMAL"/>
+        <result column="clear_balance" property="clearBalance" jdbcType="DECIMAL"/>
+        <result column="freeze_balance" property="freezeBalance" jdbcType="DECIMAL"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="min_settle_amount" property="minSettleAmount" jdbcType="DECIMAL"/>
+        <result column="settle_switch" property="settleSwitch" jdbcType="BIT"/>
+        <result column="available_balance" property="availableBalance" jdbcType="DECIMAL"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, institution_id, institution_name,account_code, currency, settle_balance, clear_balance,
+    freeze_balance, create_time, update_time, creator, modifier, remark, enabled,min_settle_amount,
+    settle_switch
+    </sql>
+    <select id="getAccountByWithdrawal" resultMap="secondResultMap">
+        SELECT a.id,
+               a.institution_id,
+               a.institution_name,
+               a.account_code,
+               a.currency,
+               a.settle_balance,
+               a.freeze_balance,
+               a.settle_balance - a.freeze_balance as available_balance,
+               s.settle_switch,
+               s.min_settle_amount
+        FROM account a
+                 left join settle_control s on a.id = s.account_id
+        WHERE a.settle_balance - a.freeze_balance >= s.min_settle_amount
+          and a.institution_id = #{institutionCode}
+          and a.currency = #{currency}
+          and a.enabled = 1;
+    </select>
+
+
+</mapper>

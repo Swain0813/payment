@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.institution.dao.InstitutionProductAuditMapper" >
+  <resultMap id="BaseResultMap" type="com.payment.institution.entity.InstitutionProductAudit" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="institution_id" property="institutionId" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="rate_type" property="rateType" jdbcType="VARCHAR" />
+    <result column="min_tate" property="minTate" jdbcType="DECIMAL" />
+    <result column="max_tate" property="maxTate" jdbcType="DECIMAL" />
+    <result column="rate" property="rate" jdbcType="DECIMAL" />
+      <result column="divided_mode" property="dividedMode" jdbcType="TINYINT"/>
+      <result column="divided_ratio" property="dividedRatio" jdbcType="DECIMAL"/>
+    <result column="float_rate" property="floatRate" jdbcType="DECIMAL"/>
+    <result column="add_value" property="addValue" jdbcType="DECIMAL" />
+    <result column="limit_amount" property="limitAmount" jdbcType="DECIMAL" />
+    <result column="daily_trading_count" property="dailyTradingCount" jdbcType="INTEGER" />
+    <result column="daily_total_amount" property="dailyTotalAmount" jdbcType="DECIMAL" />
+    <result column="fee_payer" property="feePayer" jdbcType="TINYINT" />
+    <result column="audit_limit_status" property="auditLimitStatus" jdbcType="BIT" />
+    <result column="audit_info_status" property="auditInfoStatus" jdbcType="BIT" />
+    <result column="audit_limit_remark" property="auditLimitRemark" jdbcType="VARCHAR" />
+    <result column="audit_info_remark" property="auditInfoRemark" jdbcType="VARCHAR" />
+    <result column="settle_cycle" property="settleCycle" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="info_effect_time" property="infoEffectTime" jdbcType="TIMESTAMP" />
+    <result column="limit_effect_time" property="limitEffectTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="enabled" property="enabled" jdbcType="BIT"/>
+    <result column="refund_rate_type" property="refundRateType" jdbcType="VARCHAR"/>
+    <result column="refund_min_tate" property="refundMinTate" jdbcType="DECIMAL"/>
+    <result column="refund_max_tate" property="refundMaxTate" jdbcType="DECIMAL"/>
+    <result column="refund_rate" property="refundRate" jdbcType="DECIMAL"/>
+    <result column="refund_add_value" property="refundAddValue" jdbcType="DECIMAL"/>
+  </resultMap>
+
+  <resultMap id="SecondResultMap" type="com.payment.common.vo.InstitutionProductVO">
+    <id column="id" property="id" jdbcType="VARCHAR"/>
+    <result column="institutionId" property="institutionId" jdbcType="VARCHAR"/>
+    <result column="institutionCode" property="institutionCode" jdbcType="VARCHAR"/>
+    <result column="institutionName" property="institutionName" jdbcType="VARCHAR"/>
+    <result column="institutionType" property="institutionType" jdbcType="VARCHAR"/>
+    <result column="dividedRatio" property="dividedRatio" jdbcType="DECIMAL"/>
+    <result column="dividedMode" property="dividedMode" jdbcType="TINYINT"/>
+    <result column="productCode" property="productCode" jdbcType="VARCHAR"/>
+    <result column="transType" property="transType" jdbcType="TINYINT"/>
+    <result column="payType" property="payType" jdbcType="TINYINT"/>
+    <result column="currency" property="currency" jdbcType="TINYINT"/>
+    <result column="rateType" property="rateType" jdbcType="VARCHAR"/>
+    <result column="minTate" property="minRate" jdbcType="DECIMAL"/>
+    <result column="maxTate" property="maxRate" jdbcType="DECIMAL"/>
+    <result column="rate" property="rate" jdbcType="DECIMAL"/>
+    <result column="floatRate" property="floatRate" jdbcType="DECIMAL"/>
+    <result column="settleCycle" property="settleCycle" jdbcType="VARCHAR"/>
+    <result column="addValue" property="addValue" jdbcType="DECIMAL"/>
+    <result column="limitAmount" property="limitAmount" jdbcType="DECIMAL"/>
+    <result column="enabled" property="enabled" jdbcType="DECIMAL"/>
+    <result column="auditInfoStatus" property="auditInfoStatus" jdbcType="TINYINT"/>
+    <result column="dailyTradingCount" property="dailyTradingCount" jdbcType="INTEGER"/>
+    <result column="dailyTotalAmount" property="dailyTotalAmount" jdbcType="DECIMAL"/>
+    <result column="auditLimitStatus" property="auditLimitStatus" jdbcType="TINYINT"/>
+    <result column="auditLimitRemark" property="auditLimitRemark" jdbcType="VARCHAR"/>
+    <result column="auditInfoRemark" property="auditInfoRemark" jdbcType="VARCHAR"/>
+    <result column="feePayer" property="feePayer" jdbcType="TINYINT"/>
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    <result column="creator" property="creator" jdbcType="VARCHAR"/>
+    <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+    <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    <result column="refund_rate_type" property="refundRateType" jdbcType="VARCHAR"/>
+    <result column="refund_min_tate" property="refundMinTate" jdbcType="DECIMAL"/>
+    <result column="refund_max_tate" property="refundMaxTate" jdbcType="DECIMAL"/>
+    <result column="refund_rate" property="refundRate" jdbcType="DECIMAL"/>
+    <result column="refund_add_value" property="refundAddValue" jdbcType="DECIMAL"/>
+  </resultMap>
+
+
+  <sql id="Base_Column_List" >
+      id, institution_id, product_id, rate_type, min_tate, max_tate, rate, add_value, limit_amount,
+    daily_trading_count, daily_total_amount, fee_payer, audit_limit_status, audit_info_status, float_rate,
+    audit_limit_remark, audit_info_remark, settle_cycle, create_time, update_time, creator, info_effect_time,limit_effect_time,
+    modifier, remark,enabled,refund_rate_type,refund_min_tate,refund_max_tate,refund_rate,refund_add_value,divided_mode,divided_ratio
+  </sql>
+
+  <select id="pageFindInsProductAudit" resultMap="SecondResultMap"
+          resultType="com.payment.common.dto.InstitutionProductDTO">
+    select
+    ip.id as id ,i.id as institutionId ,i.institution_code as institutionCode, i.cn_name as
+    institutionName,i.institution_type as institutionType,
+    p.product_code as productCode, p.trans_type as transType,d.name as payType, p.currency as currency,
+    dr.name as rateType, ip.min_tate as minTate, ip.max_tate as maxTate, ip.rate as rate,ip.settle_cycle as
+    settleCycle, ip.add_value as addValue, ip.limit_amount as limitAmount, ip.enabled as
+    enabled,ip.audit_limit_remark as auditLimitRemark,ip.audit_info_remark as auditInfoRemark,ip.float_rate as floatRate,
+    ip.audit_info_status as auditInfoStatus, ip.daily_trading_count as dailyTradingCount, ip.daily_total_amount as
+    dailyTotalAmount,ip.divided_mode as dividedMode,ip.divided_ratio as dividedRatio,ip.product_id as productId,
+    ip.audit_limit_status as auditLimitStatus, ip.fee_payer as feePayer,
+    ip.create_time,ip.update_time,ip.creator,ip.modifier,ip.remark,ip.refund_rate_type,ip.refund_min_tate,ip.refund_max_tate,ip.refund_rate,ip.refund_add_value
+    from institution_product_audit as ip ,institution as i,product as p,
+    (select `name`,code from dictionary  where  `language` = #{language}) as d,
+    (select `name`,code from dictionary  where  `language` = #{language}) as dr
+    <where>
+      ip.institution_id = i.id and ip.product_id = p.id and  p.pay_type = d.code and ip.rate_type = dr.code
+      <if test="institutionCode!=null and institutionCode != ''">
+        and i.institution_code=#{institutionCode}
+      </if>
+      <if test="productId!=null and productId != ''">
+        and ip.product_id=#{productId}
+      </if>
+      <if test="institutionName != null and institutionName != ''">
+        and i.cn_name LIKE CONCAT(CONCAT('%', #{institutionName}), '%')
+      </if>
+      <if test="transType != null and transType != ''">
+        and p.trans_type=#{transType}
+      </if>
+      <if test="payType != null and payType != ''">
+        and p.pay_type=#{payType}
+      </if>
+      <if test="enabled != null">
+        and p.enabled=#{enabled}
+      </if>
+      <if test="auditInfoStatus != null and auditInfoStatus != ''">
+        and ip.audit_info_status=#{auditInfoStatus}
+      </if>
+      <if test="auditLimitStatus != null and auditLimitStatus != ''">
+        and ip.audit_limit_status=#{auditLimitStatus}
+      </if>
+    </where>
+  </select>
+
+  <select id="getInsProductAuditById" resultMap="SecondResultMap" resultType="String">
+    select ip.id                 as id,
+           i.id                  as institutionId,
+           i.institution_code    as institutionCode,
+           i.cn_name             as institutionName,
+           i.institution_type    as institutionType,
+           p.product_code        as productCode,p.trans_type as transType,d.name as payType,p.currency as currency,p.id as productId,
+           dr.name               as rateType,ip.min_tate as minRate,ip.max_tate as maxRate,ip.rate as rate,ip.settle_cycle as settleCycle,
+           ip.add_value          as addValue,ip.limit_amount as limitAmount,ip.enabled as enabled,ip.float_rate as floatRate,
+           ip.refund_rate_type,
+           ip.divided_ratio      as dividedRatio,
+           ip.divided_mode       as dividedMode,
+           ip.refund_min_tate,
+           ip.refund_max_tate,
+           ip.refund_rate,
+           ip.refund_add_value,
+           ip.audit_info_status  as auditInfoStatus,ip.daily_trading_count as dailyTradingCount,ip.daily_total_amount as dailyTotalAmount,
+           ip.audit_limit_status as auditLimitStatus,ip.fee_payer as feePayer,ip.create_time,ip.update_time,ip.creator,ip.modifier,ip.remark,
+           ip.audit_limit_remark as auditLimitRemark,ip.audit_info_remark as auditInfoRemark
+    from institution_product_audit as ip ,institution as i,product as p,
+     (select `name`,code from dictionary  where  `language` = #{language}) as d,
+    (select `name`,code from dictionary  where  `language` = #{language}) as dr
+    where
+      ip.institution_id = i.id and ip.product_id = p.id and ip.id = #{insProductId}  and  p.pay_type = d.code and  ip.rate_type = dr.code
+  </select>
+
+</mapper>

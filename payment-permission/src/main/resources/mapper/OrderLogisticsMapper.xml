@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.permission.dao.OrderLogisticsMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.OrderLogistics">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="reference_no" property="referenceNo" jdbcType="VARCHAR"/>
+        <result column="institution_code" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="institution_name" property="institutionName" jdbcType="VARCHAR"/>
+        <result column="institution_order_id" property="institutionOrderId" jdbcType="VARCHAR"/>
+        <result column="product_description" property="productDescription" jdbcType="VARCHAR"/>
+        <result column="invoice_no" property="invoiceNo" jdbcType="VARCHAR"/>
+        <result column="provider_name" property="providerName" jdbcType="VARCHAR"/>
+        <result column="payer_address" property="payerAddress" jdbcType="VARCHAR"/>
+        <result column="payer_name" property="payerName" jdbcType="VARCHAR"/>
+        <result column="payer_email" property="payerEmail" jdbcType="VARCHAR"/>
+        <result column="delivery_status" property="deliveryStatus" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id,reference_no,institution_code,institution_name, institution_order_id, product_description, invoice_no, provider_name,
+    payer_address, payer_name, payer_email, delivery_status, create_time, update_time,
+    creator, modifier, remark
+    </sql>
+
+
+</mapper>

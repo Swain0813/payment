@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.finance.dao.SettleCheckAccountMapper" >
+  <resultMap id="BaseResultMap" type="com.payment.common.entity.SettleCheckAccount" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="institution_code" property="institutionCode" jdbcType="TIMESTAMP" />
+    <result column="check_time" property="checkTime" jdbcType="TIMESTAMP" />
+    <result column="currency" property="currency" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="fee" property="fee" jdbcType="DECIMAL" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="initial_amount" property="initialAmount" jdbcType="DECIMAL" />
+    <result column="final_amount" property="finalAmount" jdbcType="DECIMAL" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="modifier" property="modifier" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, check_time, currency, amount, fee, initial_amount, final_amount, create_time, institution_code,count,
+    update_time, creator, modifier, remark
+  </sql>
+
+  <select id="statistical" resultMap="BaseResultMap">
+    select
+    merchantid as institution_code,txncurrency as currency ,sum(txnamount) as amount,sum(fee) as fee,count(txncurrency) as count
+    from settle_check_account_detail
+    WHERE DATE_FORMAT(actualSTtime,'%Y-%m-%d') = DATE_FORMAT(#{time},'%Y-%m-%d') group by merchantid,txncurrency
+  </select>
+
+  <select id="selectByCurrencyAndInstitutionCode" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from settle_check_account
+    WHERE institution_code = #{institutionCode} and currency = #{currency} order by check_time desc limit 0,1
+  </select>
+
+  <select id="pageSettleAccountCheck" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from settle_check_account
+    <where>
+      <if test="currency != null and currency != ''">
+        AND currency = #{currency}
+      </if>
+      <if test="institutionCode != null and institutionCode != ''">
+        AND institution_code = #{institutionCode}
+      </if>
+      <if test="startDate != null and startDate != ''">
+        AND DATE_FORMAT(check_time,'%Y-%m-%d') &gt;= #{startDate}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        AND DATE_FORMAT(check_time,'%Y-%m-%d') &lt;= #{endDate}
+      </if>
+      <if test="checkDate != null">
+        AND DATE_FORMAT(check_time,'%Y-%m-%d') = DATE_FORMAT(#{checkDate},'%Y-%m-%d')
+      </if>
+    </where>
+  </select>
+
+  <select id="exportSettleAccountCheck" resultMap="BaseResultMap">
+    select
+    id, DATE_FORMAT(check_time,'%Y-%m-%d') as check_time, currency, amount, fee, initial_amount, final_amount, create_time, institution_code,count,
+    update_time, creator, modifier, remark
+    from settle_check_account
+    <where>
+      <if test="currency != null and currency != ''">
+        AND currency = #{currency}
+      </if>
+      <if test="institutionCode != null and institutionCode != ''">
+        AND institution_code = #{institutionCode}
+      </if>
+      <if test="startDate != null and startDate != ''">
+        AND DATE_FORMAT(check_time,'%Y-%m-%d') &gt;= #{startDate}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        AND DATE_FORMAT(check_time,'%Y-%m-%d') &lt;= #{endDate}
+      </if>
+      <if test="checkDate != null">
+        AND DATE_FORMAT(check_time,'%Y-%m-%d') = DATE_FORMAT(#{checkDate},'%Y-%m-%d')
+      </if>
+    </where>
+    order by check_time desc
+  </select>
+
+</mapper>

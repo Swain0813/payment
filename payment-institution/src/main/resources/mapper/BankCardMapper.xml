@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.payment.institution.dao.BankCardMapper">
+    <resultMap id="BaseResultMap" type="com.payment.common.entity.BankCard">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="institution_id" property="institutionId" jdbcType="VARCHAR"/>
+        <result column="account_code" property="accountCode" jdbcType="VARCHAR"/>
+        <result column="bank_account_code" property="bankAccountCode" jdbcType="VARCHAR"/>
+        <result column="account_name" property="accountName" jdbcType="VARCHAR"/>
+        <result column="bank_name" property="bankName" jdbcType="VARCHAR"/>
+        <result column="bank_currency" property="bankCurrency" jdbcType="VARCHAR"/>
+        <result column="bankcode_currency" property="bankCodeCurrency" jdbcType="VARCHAR"/>
+        <result column="swift_code" property="swiftCode" jdbcType="VARCHAR"/>
+        <result column="bank_code" property="bankCode" jdbcType="VARCHAR"/>
+        <result column="bank_address" property="bankAddress" jdbcType="VARCHAR"/>
+        <result column="nature" property="nature" jdbcType="TINYINT"/>
+        <result column="receiver_country" property="receiverCountry" jdbcType="VARCHAR"/>
+        <result column="receiver_address" property="receiverAddress" jdbcType="VARCHAR"/>
+        <result column="receiver" property="receiver" jdbcType="VARCHAR"/>
+        <result column="iban" property="iban" jdbcType="VARCHAR"/>
+        <result column="intermediary_bank_code" property="intermediaryBankCode" jdbcType="VARCHAR"/>
+        <result column="intermediary_bank_name" property="intermediaryBankName" jdbcType="VARCHAR"/>
+        <result column="intermediary_bank_address" property="intermediaryBankAddress" jdbcType="VARCHAR"/>
+        <result column="intermediary_bank_account_no" property="intermediaryBankAccountNo" jdbcType="VARCHAR"/>
+        <result column="intermediary_bank_country" property="intermediaryBankCountry" jdbcType="VARCHAR"/>
+        <result column="intermediary_other_code" property="intermediaryOtherCode" jdbcType="VARCHAR"/>
+        <result column="default_flag" property="defaultFlag" jdbcType="BIT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+    </resultMap>
+
+
+    <resultMap id="BankCardResultMap" type="com.payment.common.vo.BankCardVO">
+        <id column="bankCardId" property="bankCardId" jdbcType="VARCHAR"/>
+        <result column="institutionId" property="institutionId" jdbcType="VARCHAR"/>
+        <result column="institutionName" property="institutionName" jdbcType="VARCHAR"/>
+        <result column="institutionCode" property="institutionCode" jdbcType="VARCHAR"/>
+        <result column="accountCode" property="accountCode" jdbcType="VARCHAR"/>
+        <result column="bank_account_code" property="bankAccountCode" jdbcType="VARCHAR"/>
+        <result column="accountName" property="accountName" jdbcType="VARCHAR"/>
+        <result column="bankName" property="bankName" jdbcType="VARCHAR"/>
+        <result column="bankCurrency" property="bankCurrency" jdbcType="VARCHAR"/>
+        <result column="bankcode_currency" property="bankCodeCurrency" jdbcType="VARCHAR"/>
+        <result column="swiftCode" property="swiftCode" jdbcType="VARCHAR"/>
+        <result column="bankCode" property="bankCode" jdbcType="VARCHAR"/>
+        <result column="bankAddress" property="bankAddress" jdbcType="VARCHAR"/>
+        <result column="nature" property="nature" jdbcType="TINYINT"/>
+        <result column="receiverCountry" property="receiverCountry" jdbcType="TINYINT"/>
+        <result column="receiverAddress" property="receiverAddress" jdbcType="VARCHAR"/>
+        <result column="receiver" property="receiver" jdbcType="VARCHAR"/>
+        <result column="iban" property="iban" jdbcType="VARCHAR"/>
+        <result column="intermediary_bank_code" property="intermediaryBankCode" jdbcType="VARCHAR"/>
+        <result column="intermediary_bank_name" property="intermediaryBankName" jdbcType="VARCHAR"/>
+        <result column="intermediary_bank_address" property="intermediaryBankAddress" jdbcType="VARCHAR"/>
+        <result column="intermediary_bank_account_no" property="intermediaryBankAccountNo" jdbcType="VARCHAR"/>
+        <result column="intermediary_bank_country" property="intermediaryBankCountry" jdbcType="VARCHAR"/>
+        <result column="intermediary_other_code" property="intermediaryOtherCode" jdbcType="VARCHAR"/>
+        <result column="default_flag" property="defaultFlag" jdbcType="BIT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="creator" property="creator" jdbcType="VARCHAR"/>
+        <result column="modifier" property="modifier" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+    </resultMap>
+
+    <select id="pageBankCard" resultMap="BankCardResultMap">
+        select
+        b.id as bankCardId, i.id as institutionId, i.cn_name as institutionName,
+        i.institution_code as institutionCode,
+        b.account_code as accountCode,b.account_name as accountName,
+        b.create_time,b.update_time,b.enabled,b.bank_account_code as bankAccountCode,
+        b.bank_name as bankName, b.bank_currency as bankCurrency,b.bankcode_currency as bankCodeCurrency,b.swift_code as swiftCode,
+        b.bank_code as bankCode,b.intermediary_bank_code,b.intermediary_bank_name,b.intermediary_bank_address,b.intermediary_bank_account_no,
+        b.intermediary_bank_country,b.intermediary_other_code,b.iban as iban,b.default_flag as defaultFlag
+        from bank_card b , institution i
+        <where>
+            b.institution_id = i.institution_code
+            <if test="institutionName!=null and institutionName != ''">
+                and i.cn_name LIKE CONCAT(CONCAT('%', #{institutionName}), '%')
+            </if>
+            <if test="institutionCode!=null and institutionCode != ''">
+                and i.institution_code=#{institutionCode}
+            </if>
+            <if test="bankCardId!=null and bankCardId != ''">
+                and b.id=#{bankCardId}
+            </if>
+            <if test="enabled != null">
+                and b.enabled = #{enabled}
+            </if>
+            <if test="bankCurrency!=null and bankCurrency != ''">
+                and b.bank_currency=#{bankCurrency}
+            </if>
+            <if test="bankCodeCurrency!=null and bankCodeCurrency != ''">
+                and b.bankcode_currency=#{bankCodeCurrency}
+            </if>
+            <if test="defaultFlag != null">
+                and b.default_flag = #{defaultFlag}
+            </if>
+        </where>
+        order by b.create_time DESC
+    </select>
+
+
+</mapper>
